@@ -1,245 +1,622 @@
 <script setup>
-import { ref, computed } from 'vue';
-import { CaretUpFilled, CaretDownFilled } from '@ant-design/icons-vue';
+import { ref, onMounted, watch } from 'vue';
+import { SendOutlined } from '@ant-design/icons-vue'
 
-let offset = ref(0);
-let maxOffset = 0;
-let minOffset = -3;
-let startYear = 2018;  // 修改起始年份为2018
-
-const cards = ref([
+const blocks = ref([
     {
-        year: 2018,
-        title: '《你的孤独，虽败犹荣》',
-        passage: '如果你停止，就是谷底。如果你还在继续，就是上坡。这是我听过关于人生低谷最好的阐述。'
+        isHidden: true,
+        title: 'Title of section 1',
+        descrip: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rer',
+        path: 'ab',
+        year: '2018',
     },
     {
-        year: 2019,
-        title: '《你的孤独，虽败犹荣》',
-        passage: '如果你停止，就是谷底。如果你还在继续，就是上坡。这是我听过关于人生低谷最好的阐述。'
+        isHidden: true,
+        title: 'Title of section 1',
+        descrip: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rer',
+        path: 'ab',
+        year: '2018',
     },
     {
-        year: 2020,
-        title: '《你的孤独，虽败犹荣》',
-        passage: '如果你停止，就是谷底。如果你还在继续，就是上坡。这是我听过关于人生低谷最好的阐述。'
+        isHidden: true,
+        title: 'Title of section 1',
+        descrip: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rer',
+        path: 'ab',
+        year: '2018',
     },
     {
-        year: 2021,
-        title: '《你的孤独，虽败犹荣》',
-        passage: '如果你停止，就是谷底。如果你还在继续，就是上坡。这是我听过关于人生低谷最好的阐述。'
+        isHidden: true,
+        title: 'Title of section 1',
+        descrip: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rer',
+        path: 'ab',
+        year: '2018',
     },
     {
-        year: 2022,
-        title: '《你的孤独，虽败犹荣》',
-        passage: '如果你停止，就是谷底。如果你还在继续，就是上坡。这是我听过关于人生低谷最好的阐述。'
+        isHidden: true,
+        title: 'Title of section 1',
+        descrip: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rer',
+        path: 'ab',
+        year: '2018',
     },
     {
-        year: 2023,
-        title: '《你的孤独，虽败犹荣》',
-        passage: '如果你停止，就是谷底。如果你还在继续，就是上坡。这是我听过关于人生低谷最好的阐述。'
+        isHidden: true,
+        title: 'Title of section 1',
+        descrip: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rer',
+        path: 'ab',
+        year: '2018',
     },
     {
-        year: 2024,
-        title: '《你的孤独，虽败犹荣》',
-        passage: '如果你停止，就是谷底。如果你还在继续，就是上坡。这是我听过关于人生低谷最好的阐述。'
+        isHidden: true,
+        title: 'Title of section 1',
+        descrip: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rer',
+        path: 'ab',
+        year: '2018',
     },
+    // Add more blocks as needed
 ]);
 
-let slides = computed(() => {
-  let result = [];
-  for (let i = -60, year = startYear - 1; i < 420; i += 6) {
-    let slide = {
-      degree: i,
-      year: i % 60 === 0 ? year : null
-    };
-    if (i % 60 === 0) {
-      year++;
-    }
-    result.push(slide);
-  }
-  return result;
-});
-
-function slideToPrev() {
-    offset.value = Math.min(maxOffset, offset.value + 1);
-}
-
-function slideToNext() {
-    offset.value = Math.max(minOffset, offset.value - 1);
-}
-
-let clockRotate = computed(() => {
-    return `rotate(${offset.value * 60}deg)`;
+onMounted(() => {
+    window.addEventListener('scroll', () => {
+        blocks.value = blocks.value.map(block => {
+            if (block.isHidden && window.scrollY + window.innerHeight * 0.75 > block.offsetTop) {
+                block.isHidden = false;
+            }
+            return block;
+        });
+    });
 });
 </script>
 
 <template>
     <div class="timeline">
-        <!-- <i class="iconfont icon-arrow-up-bold" id="up-btn" onclick="slideToPrev()"></i> -->
-        <!-- <i class="iconfont icon-arrow-down-bold" id="down-btn" onclick="slideToNext()"></i> -->
-        <CaretUpFilled @click="slideToPrev()" />
-        <CaretDownFilled @click="slideToNext()" />
+        <section id="cd-timeline" class="cd-container">
+            <div class="cd-timeline-block" v-for="(block, index) in blocks" :key="index"
+                :class="{ 'is-hidden': block.isHidden }">
+                <div class="cd-timeline-img cd-picture">
+                    <SendOutlined />
+                </div>
 
-        <div id="content">
-            <div class="card" v-for="(card, index) in cards" :key="index"
-                :style="{ transform: `translateY(${offset * 100}%)` }">
-                <div class="card-time">
-                    {{ card.year }}
-                </div>
-                <div class="card-title">
-                    {{ card.title }}
-                </div>
-                <div class="card-passage">
-                    {{ card.passage }}
+                <div class="cd-timeline-content">
+                    <h2>{{ block.title }}</h2>
+                    <p>{{ block.descrip }}</p>
+                    <a :href="block.path" class="cd-read-more">Read more</a>
+                    <span class="cd-date">{{ block.year }}</span>
                 </div>
             </div>
-        </div>
-
-        <div id="clock" :style="{ transform: clockRotate }">
-            <div id="clock-center"></div>
-            <div id="clock-pointer"></div>
-            <div id="clock-table">
-                <div v-for="(slide, index) in slides" :key="index" class="invisible-table"
-                    :style="{ transform: `rotate(${slide.degree}deg)` }">
-                    <div v-if="slide.year" class="clock-thick">
-                        <span>{{ slide.year }}</span>
-                    </div>
-                    <div v-else class="clock-scale"></div>
-                </div>
-            </div>
-        </div>
+        </section>
     </div>
 </template>
 
-<style scoped lang="less">
+<style scoped>
+/* -------------------------------- 
+
+Primary style
+
+-------------------------------- */
+html * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*:after,
+*:before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
 .timeline {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
+    font-size: 100%;
+    font-family: "Droid Serif", serif;
+    color: #7f8c97;
+    background-color: #e9f0f5;
+}
+
+a {
+    color: #acb7c0;
+    text-decoration: none;
+    font-family: "Open Sans", sans-serif;
+}
+
+img {
+    max-width: 100%;
+}
+
+h1,
+h2 {
+    font-family: "Open Sans", sans-serif;
+    font-weight: bold;
+}
+
+.cd-container {
+    width: 90%;
+    max-width: 1170px;
+    margin: 0 auto;
+}
+
+.cd-container::after {
+    /* clearfix */
+    content: "";
+    display: table;
+    clear: both;
+}
+
+header {
+    height: 200px;
+    line-height: 200px;
+    text-align: center;
+    background: #303e49;
+}
+
+header h1 {
+    color: #ffffff;
+    font-size: 18px;
+    font-size: 1.125rem;
+}
+
+@media only screen and (min-width: 1170px) {
+    header {
+        height: 300px;
+        line-height: 300px;
+    }
+
+    header h1 {
+        font-size: 24px;
+        font-size: 1.5rem;
+    }
+}
+
+#cd-timeline {
     position: relative;
-    background-color: #5053fc;
-    overflow: hidden;
+    padding: 2em 0;
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
 
-    .iconfont {
-        width: 80px;
-        height: 80px;
+#cd-timeline::before {
+    /* this is the vertical line */
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 18px;
+    height: 100%;
+    width: 4px;
+    background: #d7e4ed;
+}
+
+@media only screen and (min-width: 1170px) {
+    #cd-timeline {
+        margin-top: 3em;
+        margin-bottom: 3em;
+    }
+
+    #cd-timeline::before {
+        left: 50%;
+        margin-left: -2px;
+    }
+}
+
+.cd-timeline-block {
+    position: relative;
+    margin: 2em 0;
+}
+
+.cd-timeline-block::after {
+    clear: both;
+    content: "";
+    display: table;
+}
+
+.cd-timeline-block:first-child {
+    margin-top: 0;
+}
+
+.cd-timeline-block:last-child {
+    margin-bottom: 0;
+}
+
+@media only screen and (min-width: 1170px) {
+    .cd-timeline-block {
+        margin: 4em 0;
+    }
+
+    .cd-timeline-block:first-child {
+        margin-top: 0;
+    }
+
+    .cd-timeline-block:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.cd-timeline-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px #ffffff, inset 0 2px 0 rgba(0, 0, 0, 0.08), 0 3px 0 4px rgba(0, 0, 0, 0.05);
+}
+
+.cd-timeline-img img {
+    display: block;
+    width: 24px;
+    height: 24px;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    margin-left: -12px;
+    margin-top: -12px;
+}
+
+.cd-timeline-img.cd-picture {
+    background: #75ce66;
+}
+
+.cd-timeline-img.cd-movie {
+    background: #c03b44;
+}
+
+.cd-timeline-img.cd-location {
+    background: #f0ca45;
+}
+
+@media only screen and (min-width: 1170px) {
+    .cd-timeline-img {
+        width: 60px;
+        height: 60px;
+        left: 50%;
+        margin-left: -30px;
+        /* Force Hardware Acceleration in WebKit */
+        -webkit-transform: translateZ(0);
+        -webkit-backface-visibility: hidden;
+    }
+
+    .cssanimations .cd-timeline-img.is-hidden {
+        visibility: hidden;
+    }
+
+    .cssanimations .cd-timeline-img.bounce-in {
+        visibility: visible;
+        -webkit-animation: cd-bounce-1 0.6s;
+        -moz-animation: cd-bounce-1 0.6s;
+        animation: cd-bounce-1 0.6s;
+    }
+}
+
+@-webkit-keyframes cd-bounce-1 {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale(0.5);
+    }
+
+    60% {
+        opacity: 1;
+        -webkit-transform: scale(1.2);
+    }
+
+    100% {
+        -webkit-transform: scale(1);
+    }
+}
+
+@-moz-keyframes cd-bounce-1 {
+    0% {
+        opacity: 0;
+        -moz-transform: scale(0.5);
+    }
+
+    60% {
+        opacity: 1;
+        -moz-transform: scale(1.2);
+    }
+
+    100% {
+        -moz-transform: scale(1);
+    }
+}
+
+@keyframes cd-bounce-1 {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale(0.5);
+        -moz-transform: scale(0.5);
+        -ms-transform: scale(0.5);
+        -o-transform: scale(0.5);
+        transform: scale(0.5);
+    }
+
+    60% {
+        opacity: 1;
+        -webkit-transform: scale(1.2);
+        -moz-transform: scale(1.2);
+        -ms-transform: scale(1.2);
+        -o-transform: scale(1.2);
+        transform: scale(1.2);
+    }
+
+    100% {
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+        -ms-transform: scale(1);
+        -o-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+.cd-timeline-content {
+    position: relative;
+    margin-left: 60px;
+    background: #ffffff;
+    border-radius: 0.25em;
+    padding: 1em;
+    box-shadow: 0 3px 0 #d7e4ed;
+}
+
+.cd-timeline-content::after {
+    clear: both;
+    content: "";
+    display: table;
+}
+
+.cd-timeline-content h2 {
+    color: #303e49;
+}
+
+.cd-timeline-content p,
+.cd-timeline-content .cd-read-more,
+.cd-timeline-content .cd-date {
+    font-size: 13px;
+    font-size: 0.8125rem;
+}
+
+.cd-timeline-content .cd-read-more,
+.cd-timeline-content .cd-date {
+    display: inline-block;
+}
+
+.cd-timeline-content p {
+    margin: 1em 0;
+    line-height: 1.6;
+}
+
+.cd-timeline-content .cd-read-more {
+    float: right;
+    padding: 0.8em 1em;
+    background: #acb7c0;
+    color: #ffffff;
+    border-radius: 0.25em;
+}
+
+.no-touch .cd-timeline-content .cd-read-more:hover {
+    background-color: #bac4cb;
+}
+
+.cd-timeline-content .cd-date {
+    float: left;
+    padding: 0.8em 0;
+    opacity: 0.7;
+}
+
+.cd-timeline-content::before {
+    content: "";
+    position: absolute;
+    top: 16px;
+    right: 100%;
+    height: 0;
+    width: 0;
+    border: 7px solid transparent;
+    border-right: 7px solid #ffffff;
+}
+
+@media only screen and (min-width: 768px) {
+    .cd-timeline-content h2 {
+        font-size: 20px;
+        font-size: 1.25rem;
+    }
+
+    .cd-timeline-content p {
+        font-size: 16px;
+        font-size: 1rem;
+    }
+
+    .cd-timeline-content .cd-read-more,
+    .cd-timeline-content .cd-date {
+        font-size: 14px;
+        font-size: 0.875rem;
+    }
+}
+
+@media only screen and (min-width: 1170px) {
+    .cd-timeline-content {
+        margin-left: 0;
+        padding: 1.6em;
+        width: 45%;
+    }
+
+    .cd-timeline-content::before {
+        top: 24px;
+        left: 100%;
+        border-color: transparent;
+        border-left-color: #ffffff;
+    }
+
+    .cd-timeline-content .cd-read-more {
+        float: left;
+    }
+
+    .cd-timeline-content .cd-date {
         position: absolute;
-        left: 27%;
-        z-index: 999;
-        font: 900 80px '';
-        color: #fff;
-    }
-
-    #up-btn {
-        top: 5%;
-    }
-
-    #down-btn {
-        bottom: 5%;
-    }
-
-    #content {
-        width: 30%;
-        height: 100%;
-        position: absolute;
-        left: 15%;
-        overflow: hidden;
-
-        .card {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            color: white;
-            transition: transform .8s ease-in-out;
-
-            .card-time {
-                font-size: 40px;
-                font-weight: 700;
-            }
-
-            .card-title {
-                font-size: 50px;
-                font-weight: 500;
-                padding-bottom: 10px;
-                border-bottom: 1px solid white;
-                margin-bottom: 10px;
-            }
-
-            .card-passage {
-                font-size: 24px;
-                font-weight: 300;
-            }
-
-        }
-    }
-
-
-
-
-
-    #clock {
-        height: 130%;
-        /* 纵横比为1:1 */
-        aspect-ratio: 1 / 1;
-        position: absolute;
-        right: -28%;
-        top: -15%;
-        border-radius: 50%;
-        background-color: white;
-        border: #ff9214 30px solid;
-    }
-
-    @media(max-width:1000px) {
-        #clock {
-            right: -90%;
-        }
-    }
-
-    #clock-table {
-        width: 96%;
-        height: 96%;
-        border-radius: 50%;
-        position: absolute;
-        top: 2%;
-        left: 2%;
-        transition: transform .8s ease-in-out;
-    }
-
-    .invisible-table {
         width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        transform-origin: 50% 50%;
-        position: absolute;
+        left: 122%;
+        top: 6px;
+        font-size: 16px;
+        font-size: 1rem;
     }
 
-    .clock-thick {
-        width: 6%;
-        height: 6px;
-        background-color: #5053fc;
-        position: absolute;
-        top: calc(50% - 3px);
-        left: 0px;
+    .cd-timeline-block:nth-child(even) .cd-timeline-content {
+        float: right;
     }
 
-    .clock-thick span {
-        font-size: 50px;
-        position: absolute;
-        left: 140%;
-        top: calc(50% - 30px);
-        color: #5053fc;
+    .cd-timeline-block:nth-child(even) .cd-timeline-content::before {
+        top: 24px;
+        left: auto;
+        right: 100%;
+        border-color: transparent;
+        border-right-color: #ffffff;
     }
 
-    .clock-scale {
-        width: 4%;
-        height: 2px;
-        background-color: #5053fc;
-        position: absolute;
-        top: calc(50% - .5px);
-        left: 0px;
+    .cd-timeline-block:nth-child(even) .cd-timeline-content .cd-read-more {
+        float: right;
     }
 
+    .cd-timeline-block:nth-child(even) .cd-timeline-content .cd-date {
+        left: auto;
+        right: 122%;
+        text-align: right;
+    }
+
+    .cssanimations .cd-timeline-content.is-hidden {
+        visibility: hidden;
+    }
+
+    .cssanimations .cd-timeline-content.bounce-in {
+        visibility: visible;
+        -webkit-animation: cd-bounce-2 0.6s;
+        -moz-animation: cd-bounce-2 0.6s;
+        animation: cd-bounce-2 0.6s;
+    }
+}
+
+@media only screen and (min-width: 1170px) {
+
+    /* inverse bounce effect on even content blocks */
+    .cssanimations .cd-timeline-block:nth-child(even) .cd-timeline-content.bounce-in {
+        -webkit-animation: cd-bounce-2-inverse 0.6s;
+        -moz-animation: cd-bounce-2-inverse 0.6s;
+        animation: cd-bounce-2-inverse 0.6s;
+    }
+}
+
+@-webkit-keyframes cd-bounce-2 {
+    0% {
+        opacity: 0;
+        -webkit-transform: translateX(-100px);
+    }
+
+    60% {
+        opacity: 1;
+        -webkit-transform: translateX(20px);
+    }
+
+    100% {
+        -webkit-transform: translateX(0);
+    }
+}
+
+@-moz-keyframes cd-bounce-2 {
+    0% {
+        opacity: 0;
+        -moz-transform: translateX(-100px);
+    }
+
+    60% {
+        opacity: 1;
+        -moz-transform: translateX(20px);
+    }
+
+    100% {
+        -moz-transform: translateX(0);
+    }
+}
+
+@keyframes cd-bounce-2 {
+    0% {
+        opacity: 0;
+        -webkit-transform: translateX(-100px);
+        -moz-transform: translateX(-100px);
+        -ms-transform: translateX(-100px);
+        -o-transform: translateX(-100px);
+        transform: translateX(-100px);
+    }
+
+    60% {
+        opacity: 1;
+        -webkit-transform: translateX(20px);
+        -moz-transform: translateX(20px);
+        -ms-transform: translateX(20px);
+        -o-transform: translateX(20px);
+        transform: translateX(20px);
+    }
+
+    100% {
+        -webkit-transform: translateX(0);
+        -moz-transform: translateX(0);
+        -ms-transform: translateX(0);
+        -o-transform: translateX(0);
+        transform: translateX(0);
+    }
+}
+
+@-webkit-keyframes cd-bounce-2-inverse {
+    0% {
+        opacity: 0;
+        -webkit-transform: translateX(100px);
+    }
+
+    60% {
+        opacity: 1;
+        -webkit-transform: translateX(-20px);
+    }
+
+    100% {
+        -webkit-transform: translateX(0);
+    }
+}
+
+@-moz-keyframes cd-bounce-2-inverse {
+    0% {
+        opacity: 0;
+        -moz-transform: translateX(100px);
+    }
+
+    60% {
+        opacity: 1;
+        -moz-transform: translateX(-20px);
+    }
+
+    100% {
+        -moz-transform: translateX(0);
+    }
+}
+
+@keyframes cd-bounce-2-inverse {
+    0% {
+        opacity: 0;
+        -webkit-transform: translateX(100px);
+        -moz-transform: translateX(100px);
+        -ms-transform: translateX(100px);
+        -o-transform: translateX(100px);
+        transform: translateX(100px);
+    }
+
+    60% {
+        opacity: 1;
+        -webkit-transform: translateX(-20px);
+        -moz-transform: translateX(-20px);
+        -ms-transform: translateX(-20px);
+        -o-transform: translateX(-20px);
+        transform: translateX(-20px);
+    }
+
+    100% {
+        -webkit-transform: translateX(0);
+        -moz-transform: translateX(0);
+        -ms-transform: translateX(0);
+        -o-transform: translateX(0);
+        transform: translateX(0);
+    }
 }
 </style>
