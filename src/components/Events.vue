@@ -6,6 +6,6 @@
     <div class="events"></div>
 </template>
 
-<style scoped>
+<style scoped lang="less">
 .events {}
 </style>

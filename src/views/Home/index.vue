@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import Carousel from '@/components/Carousel.vue'
+import ShowData from '@/components/ShowData.vue';
+import Timeline from '@/components/Timeline.vue';
 </script>
 
 <template>
     <div class="home">
         <div class="inner"></div>
         <Carousel></Carousel>
-        <h1>我是home</h1>
+        <ShowData></ShowData>
+        <Timeline></Timeline>
     </div>
 
 </template>
