@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch,nextTick } from 'vue';
 import { SendOutlined } from '@ant-design/icons-vue'
 
 const blocks = ref([
@@ -55,31 +55,44 @@ const blocks = ref([
     // Add more blocks as needed
 ]);
 
-onMounted(() => {
+const blockRefs = ref(null);
+let timer = null;
+
     window.addEventListener('scroll', () => {
-        blocks.value = blocks.value.map(block => {
-            if (block.isHidden && window.scrollY + window.innerHeight * 0.75 > block.offsetTop) {
-                block.isHidden = false;
+        if(blockRefs){
+            if (!timer) {
+                timer = setTimeout(() => {
+                    console.log('window.scrollY',window.scrollY);
+                    console.log('window.innerHeight',window.innerHeight);
+                    console.log('blockRefs.value',blockRefs.value);
+                    blocks.value = blocks.value.map((block, i) => {
+                        if (block.isHidden && window.scrollY + window.innerHeight * 0.75 > blockRefs.value[i].offsetTop) {
+                            block.isHidden = false;
+                        }
+                        return block;
+                    });
+                    timer = null; // 在执行完毕后清除定时器
+                }, 2000); // 设置延迟为 200 毫秒
             }
-            return block;
-        });
+        }
     });
-});
+
+
 </script>
 
 <template>
     <div class="timeline">
         <section id="cd-timeline" class="cd-container">
-            <div class="cd-timeline-block" v-for="(block, index) in blocks" :key="index"
+            <div class="cd-timeline-block" ref="blockRefs" v-for="(block, index) in blocks" :key="index"
                 :class="{ 'is-hidden': block.isHidden }">
                 <div class="cd-timeline-img cd-picture">
-                    <SendOutlined />
+                    <SendOutlined class="img" />
                 </div>
 
                 <div class="cd-timeline-content">
                     <h2>{{ block.title }}</h2>
                     <p>{{ block.descrip }}</p>
-                    <a :href="block.path" class="cd-read-more">Read more</a>
+                    <router-link :to="block.path" class="cd-read-more">Read more</router-link>
                     <span class="cd-date">{{ block.year }}</span>
                 </div>
             </div>
@@ -87,30 +100,13 @@ onMounted(() => {
     </div>
 </template>
 
-<style scoped>
-/* -------------------------------- 
-
-Primary style
-
--------------------------------- */
-html * {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-*,
-*:after,
-*:before {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
+<style scoped lang="less">
 .timeline {
     font-size: 100%;
     font-family: "Droid Serif", serif;
     color: #7f8c97;
     background-color: #e9f0f5;
+
 }
 
 a {
@@ -175,7 +171,6 @@ header h1 {
 }
 
 #cd-timeline::before {
-    /* this is the vertical line */
     content: "";
     position: absolute;
     top: 0;
@@ -269,79 +264,30 @@ header h1 {
         height: 60px;
         left: 50%;
         margin-left: -30px;
-        /* Force Hardware Acceleration in WebKit */
-        -webkit-transform: translateZ(0);
-        -webkit-backface-visibility: hidden;
     }
 
-    .cssanimations .cd-timeline-img.is-hidden {
+    .is-hidden {
         visibility: hidden;
     }
 
     .cssanimations .cd-timeline-img.bounce-in {
         visibility: visible;
-        -webkit-animation: cd-bounce-1 0.6s;
-        -moz-animation: cd-bounce-1 0.6s;
         animation: cd-bounce-1 0.6s;
-    }
-}
-
-@-webkit-keyframes cd-bounce-1 {
-    0% {
-        opacity: 0;
-        -webkit-transform: scale(0.5);
-    }
-
-    60% {
-        opacity: 1;
-        -webkit-transform: scale(1.2);
-    }
-
-    100% {
-        -webkit-transform: scale(1);
-    }
-}
-
-@-moz-keyframes cd-bounce-1 {
-    0% {
-        opacity: 0;
-        -moz-transform: scale(0.5);
-    }
-
-    60% {
-        opacity: 1;
-        -moz-transform: scale(1.2);
-    }
-
-    100% {
-        -moz-transform: scale(1);
     }
 }
 
 @keyframes cd-bounce-1 {
     0% {
         opacity: 0;
-        -webkit-transform: scale(0.5);
-        -moz-transform: scale(0.5);
-        -ms-transform: scale(0.5);
-        -o-transform: scale(0.5);
         transform: scale(0.5);
     }
 
     60% {
         opacity: 1;
-        -webkit-transform: scale(1.2);
-        -moz-transform: scale(1.2);
-        -ms-transform: scale(1.2);
-        -o-transform: scale(1.2);
         transform: scale(1.2);
     }
 
     100% {
-        -webkit-transform: scale(1);
-        -moz-transform: scale(1);
-        -ms-transform: scale(1);
-        -o-transform: scale(1);
         transform: scale(1);
     }
 }
@@ -484,138 +430,44 @@ header h1 {
 
     .cssanimations .cd-timeline-content.bounce-in {
         visibility: visible;
-        -webkit-animation: cd-bounce-2 0.6s;
-        -moz-animation: cd-bounce-2 0.6s;
         animation: cd-bounce-2 0.6s;
     }
 }
 
 @media only screen and (min-width: 1170px) {
-
-    /* inverse bounce effect on even content blocks */
     .cssanimations .cd-timeline-block:nth-child(even) .cd-timeline-content.bounce-in {
-        -webkit-animation: cd-bounce-2-inverse 0.6s;
-        -moz-animation: cd-bounce-2-inverse 0.6s;
         animation: cd-bounce-2-inverse 0.6s;
-    }
-}
-
-@-webkit-keyframes cd-bounce-2 {
-    0% {
-        opacity: 0;
-        -webkit-transform: translateX(-100px);
-    }
-
-    60% {
-        opacity: 1;
-        -webkit-transform: translateX(20px);
-    }
-
-    100% {
-        -webkit-transform: translateX(0);
-    }
-}
-
-@-moz-keyframes cd-bounce-2 {
-    0% {
-        opacity: 0;
-        -moz-transform: translateX(-100px);
-    }
-
-    60% {
-        opacity: 1;
-        -moz-transform: translateX(20px);
-    }
-
-    100% {
-        -moz-transform: translateX(0);
     }
 }
 
 @keyframes cd-bounce-2 {
     0% {
         opacity: 0;
-        -webkit-transform: translateX(-100px);
-        -moz-transform: translateX(-100px);
-        -ms-transform: translateX(-100px);
-        -o-transform: translateX(-100px);
         transform: translateX(-100px);
     }
 
     60% {
         opacity: 1;
-        -webkit-transform: translateX(20px);
-        -moz-transform: translateX(20px);
-        -ms-transform: translateX(20px);
-        -o-transform: translateX(20px);
         transform: translateX(20px);
     }
 
     100% {
-        -webkit-transform: translateX(0);
-        -moz-transform: translateX(0);
-        -ms-transform: translateX(0);
-        -o-transform: translateX(0);
         transform: translateX(0);
-    }
-}
-
-@-webkit-keyframes cd-bounce-2-inverse {
-    0% {
-        opacity: 0;
-        -webkit-transform: translateX(100px);
-    }
-
-    60% {
-        opacity: 1;
-        -webkit-transform: translateX(-20px);
-    }
-
-    100% {
-        -webkit-transform: translateX(0);
-    }
-}
-
-@-moz-keyframes cd-bounce-2-inverse {
-    0% {
-        opacity: 0;
-        -moz-transform: translateX(100px);
-    }
-
-    60% {
-        opacity: 1;
-        -moz-transform: translateX(-20px);
-    }
-
-    100% {
-        -moz-transform: translateX(0);
     }
 }
 
 @keyframes cd-bounce-2-inverse {
     0% {
         opacity: 0;
-        -webkit-transform: translateX(100px);
-        -moz-transform: translateX(100px);
-        -ms-transform: translateX(100px);
-        -o-transform: translateX(100px);
         transform: translateX(100px);
     }
 
     60% {
         opacity: 1;
-        -webkit-transform: translateX(-20px);
-        -moz-transform: translateX(-20px);
-        -ms-transform: translateX(-20px);
-        -o-transform: translateX(-20px);
         transform: translateX(-20px);
     }
 
     100% {
-        -webkit-transform: translateX(0);
-        -moz-transform: translateX(0);
-        -ms-transform: translateX(0);
-        -o-transform: translateX(0);
         transform: translateX(0);
     }
 }
