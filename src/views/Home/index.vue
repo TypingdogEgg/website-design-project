@@ -10,6 +10,7 @@ import Timeline from '@/components/Timeline.vue';
         <Carousel></Carousel>
         <ShowData></ShowData>
         <Timeline></Timeline>
+        <div class="div" style="height: 600px"></div>
     </div>
 
 </template>

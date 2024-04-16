@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch,nextTick } from 'vue';
+import { ref, onMounted, watch, nextTick } from 'vue';
 import { SendOutlined } from '@ant-design/icons-vue'
 
 const blocks = ref([
@@ -54,49 +54,63 @@ const blocks = ref([
     },
     // Add more blocks as needed
 ]);
+let timeline = ref(null)
+let blockRefs = ref(null);
+// let timer = null;
 
-const blockRefs = ref(null);
-let timer = null;
+window.addEventListener('scroll', () => {
+    // if (blockRefs) {
+    //     console.log('window.scrollY', window.scrollY);
+    //     console.log('window.innerHeight', window.innerHeight);
+    //     blockRefs.value.forEach((i) => {
+    //         console.log('blockRefs.value', i.offsetTop);
+    //     })
+    //     blocks.value = blocks.value.map((block, i) => {
+    //         if (block.isHidden && window.scrollY + window.innerHeight * 0.75 > blockRefs.value[i].offsetTop) {
+    //             block.isHidden = false;
+    //         }
+    //         return block;
+    //     });
+    // }
+    handleScroll()
+});
+function handleScroll() {
+    if (blockRefs) {
+        console.log(timeline.value.scrollTop);
+        // console.log('window.scrollY', window.scrollY);
+        // console.log('window.innerHeight', window.innerHeight);
+        // console.log('blockRefs.value', blockRefs.value);
 
-    window.addEventListener('scroll', () => {
-        if(blockRefs){
-            if (!timer) {
-                timer = setTimeout(() => {
-                    console.log('window.scrollY',window.scrollY);
-                    console.log('window.innerHeight',window.innerHeight);
-                    console.log('blockRefs.value',blockRefs.value);
-                    blocks.value = blocks.value.map((block, i) => {
-                        if (block.isHidden && window.scrollY + window.innerHeight * 0.75 > blockRefs.value[i].offsetTop) {
-                            block.isHidden = false;
-                        }
-                        return block;
-                    });
-                    timer = null; // 在执行完毕后清除定时器
-                }, 2000); // 设置延迟为 200 毫秒
+        blocks.value = blocks.value.map((block, i) => {
+            if (block.isHidden && timeline.value.scrollTop + timeline.value.offsetHeight > blockRefs.value[i].offsetTop) {
+                block.isHidden = false;
             }
-        }
-    });
-
+            return block;
+        });
+    }
+}
 
 </script>
 
 <template>
     <div class="timeline">
-        <section id="cd-timeline" class="cd-container">
-            <div class="cd-timeline-block" ref="blockRefs" v-for="(block, index) in blocks" :key="index"
-                :class="{ 'is-hidden': block.isHidden }">
-                <div class="cd-timeline-img cd-picture">
-                    <SendOutlined class="img" />
-                </div>
+        <div class="scroll-bar" @scroll="handleScroll" ref="timeline">
+            <section id="cd-timeline" class="cd-container">
+                <div class="cd-timeline-block" ref="blockRefs" v-for="(block, index) in blocks" :key="index"
+                    :class="block.isHidden ? 'is-hidden' : 'bounce-in'">
+                    <div class="cd-timeline-img cd-picture">
+                        <SendOutlined class="img" />
+                    </div>
 
-                <div class="cd-timeline-content">
-                    <h2>{{ block.title }}</h2>
-                    <p>{{ block.descrip }}</p>
-                    <router-link :to="block.path" class="cd-read-more">Read more</router-link>
-                    <span class="cd-date">{{ block.year }}</span>
+                    <div class="cd-timeline-content" :class="block.isHidden ? 'is-hidden' : 'bounce-in'">
+                        <h2>{{ block.title }}</h2>
+                        <p>{{ block.descrip }}</p>
+                        <router-link :to="block.path" class="cd-read-more">Read more</router-link>
+                        <span class="cd-date">{{ block.year }}</span>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </div>
     </div>
 </template>
 
@@ -125,42 +139,29 @@ h2 {
     font-weight: bold;
 }
 
+.scroll-bar {
+    overflow-y: scroll;
+    height: 520px;
+}
+
+.scroll-bar::-webkit-scrollbar {
+    display: none;
+}
+
 .cd-container {
     width: 90%;
     max-width: 1170px;
+
     margin: 0 auto;
+    /* background-color: #f5f5f5; */
 }
+
 
 .cd-container::after {
     /* clearfix */
     content: "";
     display: table;
     clear: both;
-}
-
-header {
-    height: 200px;
-    line-height: 200px;
-    text-align: center;
-    background: #303e49;
-}
-
-header h1 {
-    color: #ffffff;
-    font-size: 18px;
-    font-size: 1.125rem;
-}
-
-@media only screen and (min-width: 1170px) {
-    header {
-        height: 300px;
-        line-height: 300px;
-    }
-
-    header h1 {
-        font-size: 24px;
-        font-size: 1.5rem;
-    }
 }
 
 #cd-timeline {
@@ -182,8 +183,8 @@ header h1 {
 
 @media only screen and (min-width: 1170px) {
     #cd-timeline {
-        margin-top: 3em;
-        margin-bottom: 3em;
+        /*margin-top: 3em;
+        margin-bottom: 3em;*/
     }
 
     #cd-timeline::before {
@@ -232,10 +233,10 @@ header h1 {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    box-shadow: 0 0 0 4px #ffffff, inset 0 2px 0 rgba(0, 0, 0, 0.08), 0 3px 0 4px rgba(0, 0, 0, 0.05);
+    /*     box-shadow: 0 0 0 4px #ffffff, inset 0 2px 0 rgba(0, 0, 0, 0.08), 0 3px 0 4px rgba(0, 0, 0, 0.05); */
 }
 
-.cd-timeline-img img {
+.cd-timeline-img .img {
     display: block;
     width: 24px;
     height: 24px;
@@ -264,30 +265,73 @@ header h1 {
         height: 60px;
         left: 50%;
         margin-left: -30px;
+        -webkit-transform: translateZ(0);
+        -webkit-backface-visibility: hidden;
     }
 
-    .is-hidden {
+    .cd-timeline-img.is-hidden {
         visibility: hidden;
     }
 
-    .cssanimations .cd-timeline-img.bounce-in {
+    .cd-timeline-img.bounce-in {
         visibility: visible;
         animation: cd-bounce-1 0.6s;
+    }
+}
+
+@-webkit-keyframes cd-bounce-1 {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale(0.5);
+    }
+
+    60% {
+        opacity: 1;
+        -webkit-transform: scale(1.2);
+    }
+
+    100% {
+        -webkit-transform: scale(1);
+    }
+}
+
+@-moz-keyframes cd-bounce-1 {
+    0% {
+        opacity: 0;
+        -moz-transform: scale(0.5);
+    }
+
+    60% {
+        opacity: 1;
+        -moz-transform: scale(1.2);
+    }
+
+    100% {
+        -moz-transform: scale(1);
     }
 }
 
 @keyframes cd-bounce-1 {
     0% {
         opacity: 0;
+        -moz-transform: scale(0.5);
+        -ms-transform: scale(0.5);
+        -o-transform: scale(0.5);
         transform: scale(0.5);
     }
 
     60% {
         opacity: 1;
+        -moz-transform: scale(1.2);
+        -ms-transform: scale(1.2);
+        -o-transform: scale(1.2);
         transform: scale(1.2);
     }
 
     100% {
+        -moz-transform: scale(1);
+        -ms-transform: scale(1);
+        -o-transform: scale(1);
         transform: scale(1);
     }
 }
@@ -295,7 +339,7 @@ header h1 {
 .cd-timeline-content {
     position: relative;
     margin-left: 60px;
-    background: #ffffff;
+    /*   background: #ffffff; */
     border-radius: 0.25em;
     padding: 1em;
     box-shadow: 0 3px 0 #d7e4ed;
@@ -346,7 +390,7 @@ header h1 {
     opacity: 0.7;
 }
 
-.cd-timeline-content::before {
+/* .cd-timeline-content::before {
     content: "";
     position: absolute;
     top: 16px;
@@ -355,7 +399,7 @@ header h1 {
     width: 0;
     border: 7px solid transparent;
     border-right: 7px solid #ffffff;
-}
+} */
 
 @media only screen and (min-width: 768px) {
     .cd-timeline-content h2 {
@@ -382,12 +426,12 @@ header h1 {
         width: 45%;
     }
 
-    .cd-timeline-content::before {
+    /*  .cd-timeline-content::before {
         top: 24px;
         left: 100%;
         border-color: transparent;
         border-left-color: #ffffff;
-    }
+    } */
 
     .cd-timeline-content .cd-read-more {
         float: left;
@@ -424,50 +468,140 @@ header h1 {
         text-align: right;
     }
 
-    .cssanimations .cd-timeline-content.is-hidden {
+    .cd-timeline-content.is-hidden {
         visibility: hidden;
     }
 
-    .cssanimations .cd-timeline-content.bounce-in {
+    .cd-timeline-content.bounce-in {
         visibility: visible;
         animation: cd-bounce-2 0.6s;
     }
 }
 
 @media only screen and (min-width: 1170px) {
-    .cssanimations .cd-timeline-block:nth-child(even) .cd-timeline-content.bounce-in {
+    .cd-timeline-block:nth-child(even) .cd-timeline-content.bounce-in {
+        -webkit-animation: cd-bounce-2-inverse 0.6s;
+        -moz-animation: cd-bounce-2-inverse 0.6s;
         animation: cd-bounce-2-inverse 0.6s;
+    }
+}
+
+@-webkit-keyframes cd-bounce-2 {
+    0% {
+        opacity: 0;
+        -webkit-transform: translateX(-100px);
+    }
+
+    60% {
+        opacity: 1;
+        -webkit-transform: translateX(20px);
+    }
+
+    100% {
+        -webkit-transform: translateX(0);
+    }
+}
+
+@-moz-keyframes cd-bounce-2 {
+    0% {
+        opacity: 0;
+        -moz-transform: translateX(-100px);
+    }
+
+    60% {
+        opacity: 1;
+        -moz-transform: translateX(20px);
+    }
+
+    100% {
+        -moz-transform: translateX(0);
     }
 }
 
 @keyframes cd-bounce-2 {
     0% {
         opacity: 0;
+        -webkit-transform: translateX(-100px);
+        -moz-transform: translateX(-100px);
+        -ms-transform: translateX(-100px);
+        -o-transform: translateX(-100px);
         transform: translateX(-100px);
     }
 
     60% {
         opacity: 1;
+        -webkit-transform: translateX(20px);
+        -moz-transform: translateX(20px);
+        -ms-transform: translateX(20px);
+        -o-transform: translateX(20px);
         transform: translateX(20px);
     }
 
     100% {
+        -webkit-transform: translateX(0);
+        -moz-transform: translateX(0);
+        -ms-transform: translateX(0);
+        -o-transform: translateX(0);
         transform: translateX(0);
+    }
+}
+
+@-webkit-keyframes cd-bounce-2-inverse {
+    0% {
+        opacity: 0;
+        -webkit-transform: translateX(100px);
+    }
+
+    60% {
+        opacity: 1;
+        -webkit-transform: translateX(-20px);
+    }
+
+    100% {
+        -webkit-transform: translateX(0);
+    }
+}
+
+@-moz-keyframes cd-bounce-2-inverse {
+    0% {
+        opacity: 0;
+        -moz-transform: translateX(100px);
+    }
+
+    60% {
+        opacity: 1;
+        -moz-transform: translateX(-20px);
+    }
+
+    100% {
+        -moz-transform: translateX(0);
     }
 }
 
 @keyframes cd-bounce-2-inverse {
     0% {
         opacity: 0;
+        -webkit-transform: translateX(100px);
+        -moz-transform: translateX(100px);
+        -ms-transform: translateX(100px);
+        -o-transform: translateX(100px);
         transform: translateX(100px);
     }
 
     60% {
         opacity: 1;
+        -webkit-transform: translateX(-20px);
+        -moz-transform: translateX(-20px);
+        -ms-transform: translateX(-20px);
+        -o-transform: translateX(-20px);
         transform: translateX(-20px);
     }
 
     100% {
+        -webkit-transform: translateX(0);
+        -moz-transform: translateX(0);
+        -ms-transform: translateX(0);
+        -o-transform: translateX(0);
         transform: translateX(0);
     }
 }
