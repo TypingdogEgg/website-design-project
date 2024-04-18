@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { Space } from 'ant-design-vue';
 // 导航列表 to暂定 name暂定
 const navList = [
@@ -51,8 +51,8 @@ const navList = [
     position: relative;
     z-index: 999;
     margin: 0 auto;
-    background-color: pink;
-    width: 1200px;
+    // background-color: pink;
+    width: 80%;
     height: 78px;
     display: flex;
 

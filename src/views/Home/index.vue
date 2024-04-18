@@ -1,16 +1,19 @@
-<script setup lang="ts">
+<script setup>
 import Carousel from '@/components/Carousel.vue'
 import ShowData from '@/components/ShowData.vue';
 import Timeline from '@/components/Timeline.vue';
+import Introduction from '@/components/Introduction.vue'
+import Footer from '@/components/Footer.vue'
 </script>
 
 <template>
     <div class="home">
-        <div class="inner"></div>
         <Carousel></Carousel>
         <ShowData></ShowData>
+        <Introduction></Introduction>
         <Timeline></Timeline>
         <div class="div" style="height: 600px"></div>
+        <Footer></Footer>
     </div>
 
 </template>
@@ -22,16 +25,5 @@ import Timeline from '@/components/Timeline.vue';
     left: 0;
     top: 0;
     z-index: 2;
-
-    .inner {
-        position: absolute;
-        left: 50%;
-        top: 0px;
-        transform: translateX(-50%);
-        width: 1200px;
-        margin-top: 80px;
-        height: calc(100vh - 80px);
-        background-color: pink;
-    }
 }
 </style>
