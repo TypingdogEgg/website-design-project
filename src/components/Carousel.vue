@@ -1,5 +1,4 @@
 <script setup>
-import { Carousel } from 'ant-design-vue';
 // Import Swiper styles
 import 'swiper/less';
 import { Parallax, Pagination, Navigation } from 'swiper/modules'
@@ -41,10 +40,10 @@ const swiperData = [
 
 <template>
     <div class="carousel">
-        <Swiper class="swiper" @slideChange="onSlideChange" :speed="600" :loop="true" :parallax="true" :navigation="true"
-            :pagination="{ clickable: true }">
+        <Swiper class="swiper" @slideChange="onSlideChange" :autoplay="{ delay: 3000 }" :loop="true" :parallax="true"
+            :navigation="true" :pagination="{ clickable: true }" :speed="1000">
             <SwiperSlide class="slide" v-for="data in swiperData" :key="data.id"
-                :style="data.id % 2 === 0 ? 'align-items: flex-end;' : 'align-items: flex-start;'">
+                :style="data.id % 2 === 0 ? 'align-items: flex-end;text-align: end;' : 'align-items: flex-start;'">
                 <h1 class="title">{{ data.title }}</h1>
                 <h2 class="subtitle">{{ data.subtitle }}</h2>
                 <div class="text">
@@ -72,17 +71,19 @@ const swiperData = [
         background-color: transparent;
 
         .title {
+            font-size: 30px;
             margin-top: 0;
             margin-bottom: 10px ;
         }
 
-
         .subtitle {
+            font-size: 30px;
             margin-top: 0;
             margin-bottom: 10px ;
         }
 
         .text {
+            font-size: 30px;
             max-width: 430px;
             line-height: 1.32;
         }

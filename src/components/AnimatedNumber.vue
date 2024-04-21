@@ -3,6 +3,7 @@ import { ref, watch, computed, onMounted } from 'vue';
 
 const props = defineProps({
   targetNumber: Number,
+  unit:String,
   duration: {
     type: Number,
     default: 1000
@@ -38,8 +39,8 @@ function animateNumber(startValue, endValue) {
 
 <template>
   <div class="animated-number">
-    {{ formattedNumber }}
-    <span>+</span>
+    {{ formattedNumber }}+
+    <span>{{ props.unit }}</span>
   </div>
 </template>
 
@@ -47,10 +48,10 @@ function animateNumber(startValue, endValue) {
 .animated-number {
   font-size: 36px;
   font-weight: bold;
-  
+  // color: #3c6df4;
   span {
-    font-weight: bold;
-    font-size: 18px;
+    // font-weight: bold;
+    font-size: 14px;
     padding-left: -10px;
   }
 }

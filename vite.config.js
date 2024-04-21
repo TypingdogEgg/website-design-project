@@ -22,6 +22,17 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
+  server: {
+    //用来配置跨域
+    host: '127.0.0.1',
+    port: 5173,
+    proxy: { // 配置代理
+      '/api': {
+        target: 'http://127.0.0.1:3303', //目标url
+        changeOrigin: true // 支持跨域
+      }
+    }
+  },
   css: {
     // css预处理器
     preprocessorOptions: {

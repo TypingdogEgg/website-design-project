@@ -4,10 +4,10 @@ import AnimatedNumber from './AnimatedNumber.vue';
 import { Space } from 'ant-design-vue';
 
 const dataItems = ref([
-    { number: 888, description: '平方米' },
-    { number: 999, description: '辆' },
-    { number: 1500, description: '家' },
-    { number: 1000, description: '人' },
+    { number: 70,unit:'个', description: '重点签约项目' },
+    { number: 665, unit: '个', description: '参展展商' },
+    { number: 1500, unit: '万人次', description: '线上观展人数' },
+    { number: 1000, unit: '亿元', description: '成交合同金额' },
 ]);
 
 </script>
@@ -16,7 +16,7 @@ const dataItems = ref([
     <div class="show-data">
         <div class="data-center">
             <div v-for="(item, index) in dataItems" :key="index" class="data-item">
-                <AnimatedNumber :target-number="item.number" />
+                <AnimatedNumber :unit="item.unit" :target-number="item.number" />
                 <span class="description">{{ item.description }}</span>
             </div>
         </div>
@@ -25,7 +25,8 @@ const dataItems = ref([
 
 <style scoped lang="less">
 .show-data {
-    height: 200px;
+    background-color: #3257bc;
+    height: 125px;
     display: flex;
     justify-content: center;
     .data-center{
@@ -35,6 +36,7 @@ const dataItems = ref([
         height: 100%;
         width: 1200px;
         .data-item {
+            color: #fff;
         text-align: center;
         display: flex;
         flex-grow: 1;

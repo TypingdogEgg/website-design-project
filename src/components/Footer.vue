@@ -25,7 +25,7 @@
     </div>
 </template>
 
-<style scoped>
+<style scoped lang="less">
 .footer {
     height: 500px;
     background-color: #003e7d;
