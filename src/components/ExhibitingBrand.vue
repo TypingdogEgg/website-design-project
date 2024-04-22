@@ -119,10 +119,10 @@ import { getExhibitors } from '@/api';
 
 const brandsData = ref([])
 
-// onMounted(async () => {
-//     const res = await getExhibitors()
-//     brandsData.value = res.data || []
-// })
+onMounted(async () => {
+    const res = await getExhibitors()
+    brandsData.value = res.data || []
+})
 
 const scrollData1 = computed(() => {
     return brandsData.value.filter((data, index, self) => index < self.length / 2)

@@ -7,11 +7,11 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter()
 const newsData = ref([])
-// onMounted(async()=>{
-//     // 发送请求获取新闻数据
-//     const res = await getNewsList()
-//     newsData.value = res.data
-// })
+onMounted(async()=>{
+    // 发送请求获取新闻数据
+    const res = await getNewsList()
+    newsData.value = res.data
+})
 
 // 以params参数传递给细节组件
 function goNewsDetail(id){
