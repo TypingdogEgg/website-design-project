@@ -61,10 +61,10 @@ import { ref, onMounted } from 'vue';
 //     },
 // ]
 const guestsData = ref([])
-onMounted(async () => {
-    const res = await getGuests()
-    guestsData.value = res.data
-})
+// onMounted(async () => {
+//     const res = await getGuests()
+//     guestsData.value = res.data
+// })
 
 const slider = ref({
     activeIndex: 0

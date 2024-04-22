@@ -19,7 +19,7 @@
             </div>
             <div class="video">
                 <video controls muted loop autoplay="autoplay" poster="@/assets/default.png">
-                    <source src="@/assets/smartchina.mp4" type="video/mp4">
+                    <!-- <source src="@/assets/smartchina.mp4" type="video/mp4"> -->
                 </video>
             </div>
         </div>
