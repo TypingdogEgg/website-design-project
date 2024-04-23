@@ -148,8 +148,6 @@ function slideNext() {
     width: 100%;
     position: relative;
 
-
-
     .swiper {
         width: 100%;
         height: 100%;
@@ -160,7 +158,7 @@ function slideNext() {
             height: 100%;
             position: absolute;
             z-index: 10000;
-            background: linear-gradient(359deg, #00010a, #0000000d, #0f0f0f2b, #030303);
+            background: linear-gradient(to left, #00010a, #0000000d, #0f0f0f00, #03030300);
         }
 
         .container {
@@ -183,7 +181,7 @@ function slideNext() {
             width: 600px;
             height: 200px;
             position: absolute;
-            right: 250px;
+            right: 350px;
             top: 300px;
             z-index: 10000;
 
@@ -205,12 +203,12 @@ function slideNext() {
 
         .toolbar {
             position: absolute;
-            right: 120px;
+            right: 200px;
             top: 0;
             z-index: 999;
             height: 100%;
             width: 100px;
-            border-left: 1px solid #ffffffda;
+            border-left: 1px solid #ffffff76;
             color: #fff;
             // background-color: #fff;
 

@@ -7,19 +7,25 @@
         <div class="inner">
             <div class="col logo"></div>
             <ul class="col">
-                <li class="row">123</li>
-                <li class="row">123</li>
-                <li class="row">123</li>
+                <li class="row title">参与其中</li>
+                <li class="row">getsmartchina@smartchina.com</li>
+                <li class="row title">展览查询</li>
+                <li class="row">getsmartchina@smartchina.com</li>
+                <li class="row title">成为合作伙伴</li>
+                <li class="row">getsmartchina@smartchina.com</li>
             </ul>
             <ul class="col">
-                <li class="row">234</li>
-                <li class="row">234</li>
-                <li class="row">234</li>
+                <li class="row title1">获取更多讯息</li>
+                <li class="row">展览</li>
+                <li class="row">新闻</li>
+                <li class="row">线上参展</li>
             </ul>
             <ul class="col">
-                <li class="row">345</li>
-                <li class="row">345</li>
-                <li class="row">345</li>
+                <li class="row title1">及时了解最新动态</li>
+                <li class="row text">千万不要错过智博会的任何内容</li>
+                <li class="row box">订阅实时通信</li>
+                <li class="row box">新闻登记</li>
+                <li class="row box">媒体中心</li>
             </ul>
         </div>
     </div>
@@ -27,10 +33,15 @@
 
 <style scoped lang="less">
 .footer {
-    height: 500px;
-    background-color: #003e7d;
+    height: 600px;
+    // background-color: #003e7d;
+    // background-image: linear-gradient(to top, #000000, #0a31de, #fff);
+    background-image:linear-gradient(180deg, #062667 0%, rgba(255,255,255,0) 65%),url('../assets/images/footer.png');
+    background-size: cover;
     color: #fff;
 
+    padding: 0 200px;
+    padding-top: 80px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -41,15 +52,40 @@
         justify-content: space-between;
 
         .col {
-            width: 22%;
+            // width: 22%;
             height: 400px;
+            // margin-right: 20px;
             /* background-color: #fff; */
 
-            li{
-                background-color: #fff;
-                margin-top: 20px;
+            .row{
+                color: #fff;
+                // margin-top: 20px;
+                font-size: 14px;
                 width: 100%;
-                height: 50px;
+                margin-bottom: 1rem;
+            }
+
+            .title{
+                font-size: 16px;
+                font-weight: 700;
+
+            }
+
+            .title1{
+                font-size: 20px;
+                font-weight: 700;
+            }
+
+            .text{
+                font-size: 12px;
+            }
+
+            .box{
+                border: 1px solid #fff;
+                font-weight: 700;
+                font-size: 12px;
+                padding: 10px 10px;
+                text-align: center;
             }
         }
     }
