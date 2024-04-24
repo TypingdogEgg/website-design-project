@@ -86,32 +86,49 @@ const historyData = [
 
 function slidePrev() {
     console.log(slider.value.activeIndex);
-    if (slider.value.activeIndex > 0) {
+    // if (slider.value.activeIndex > 0) {
         slider.value.slidePrev()
-    }
+    // }
 }
 
 function slideNext() {
     console.log(slider.value.activeIndex);
-    if (slider.value.activeIndex < images.length - 1) {
+    // if (slider.value.activeIndex < images.length - 1) {
         slider.value.slideNext()
-    }
+    // }
 }
 
+
+function transitionStart(){
+    const nowContent = document.querySelectorAll('.content')[slider.value.activeIndex]
+    console.log(nowContent);
+    nowContent.classList.add('animate__rotateOut')
+    nowContent.classList.remove('animate__rotateIn')
+
+}
+
+function transitionEnd(){
+    const nowContent = document.querySelectorAll('.content')[slider.value.activeIndex]
+    console.log(nowContent);
+    nowContent.classList.add('animate__rotateIn')
+    nowContent.classList.remove('animate__rotateOut')
+
+}
 
 </script>
 
 <template>
     <div class="history">
 
-        <Swiper :modules="modules" class="swiper" direction="vertical" :loop="true" @swiper="onSwiper">
+        <Swiper :modules="modules" class="swiper" direction="vertical" :speed="800" :rewind="true" @swiper="onSwiper" 
+            @slide-change-transition-start="transitionStart" @slide-change-transition-end="transitionEnd">
             <SwiperSlide v-for="item in historyData" :key="item.id">
                 <div class="over-content"></div>
                 <div class="container">
                     <div class="bg" :style="`background-image: url(${getAssetsImg(item.imgUrl)});`">
                     </div>
                 </div>
-                <div class="content">
+                <div class="content animate__animated">
                     <div class="title">
                         {{ item.name }}
                         <br>
@@ -123,7 +140,8 @@ function slideNext() {
 
             <!-- pagination and navigation -->
             <div class="toolbar">
-                <div class="pagination" v-if="slider.activeIndex > 0" @click="slidePrev">
+                <div class="pagination" @click="slidePrev">
+                <!-- <div class="pagination" v-if="slider.activeIndex > 0" @click="slidePrev"> -->
                     <UpOutlined class="icon"></UpOutlined>
                 </div>
                 <div class="navigation">
@@ -133,7 +151,8 @@ function slideNext() {
                             :key="index">{{ y }}</li>
                     </ul>
                 </div>
-                <div class="pagination" v-if="slider.activeIndex < images.length - 1" @click="slideNext">
+                <!-- <div class="pagination" v-if="slider.activeIndex < images.length - 1" @click="slideNext"> -->
+                <div class="pagination" @click="slideNext">
                     <DownOutlined class="icon"></DownOutlined>
                 </div>
             </div>
@@ -184,6 +203,7 @@ function slideNext() {
             right: 350px;
             top: 300px;
             z-index: 10000;
+            animation: move 0.8s;
 
             .title {
                 color: #fff;
@@ -198,6 +218,16 @@ function slideNext() {
             .descrip {
                 font-size: 24px;
                 color: #fff;
+            }
+        }
+
+        @keyframes move {
+            0%{
+                transform: translateY(-200px);
+            }
+
+            100%{
+                transform: translateY(0);
             }
         }
 

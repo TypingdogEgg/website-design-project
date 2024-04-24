@@ -1,4 +1,6 @@
 import './assets/css/global.less'
+// 引入动画库
+import "animate.css"
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
