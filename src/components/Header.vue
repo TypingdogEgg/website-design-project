@@ -7,7 +7,7 @@ const navList = [
     {
         id: 1,
         name: '首页',
-        to: 'homeslide'
+        to: 'home-slide'
     },
     {
         id: 2,
@@ -17,12 +17,12 @@ const navList = [
     {
         id: 3,
         name: '展品介绍',
-        to: 'intro'
+        to: 'exhibiting-brand'
     },
     {
         id: 4,
         name: '参展嘉宾',
-        to: 'guest'
+        to: 'exhibiting-person'
     },
     {
         id: 5,
@@ -49,11 +49,23 @@ window.addEventListener('scroll',()=>{
         isFixed.value = false;
     }
 })
+
+function handleScroll(to){
+    // console.log(to);
+    let offsetHeight = document.querySelectorAll(`.${to}`)[0].offsetTop
+    // console.log(offsetHeight);
+    console.log(to,document.querySelectorAll(`.${to}`)[0].offsetTop);
+    window.scrollTo({
+        top:offsetHeight,
+        left:0,
+        behavior:'smooth'
+    })
+}
+
 </script>
 
 <template>
-    <div class="header"
-        :class="!isFixed&&route.path=='/'?'header-abs':'header-fixed'">
+    <div class="header" :class="!isFixed&&route.path=='/'?'header-abs':'header-fixed'">
         <div class="header-content">
             <div class="title" @click="router.push('/')" style="cursor: pointer;">
                 <div class="logo">
@@ -70,14 +82,14 @@ window.addEventListener('scroll',()=>{
                                 <template #overlay>
                                     <Menu>
                                         <MenuItem v-for="child in nav.children" :key="child.id">
-                                        <router-link :to="child.to">{{ child.name }}</router-link>
+                                        <a @click="handleScroll(child.to)">{{ child.name }}</a>
                                         </MenuItem>
                                     </Menu>
                                 </template>
                             </Dropdown>
                         </li>
                         <li class="nav-item" v-for="nav in navNoChildren" :key="nav.id">
-                            <router-link :to="nav.to">{{ nav.name }}</router-link>
+                            <a @click="handleScroll(nav.to)">{{ nav.name }}</a>
                         </li>
                         <li class="nav-item">
                             <router-link to="login">登录/注册</router-link>
@@ -157,7 +169,7 @@ window.addEventListener('scroll',()=>{
 .header-fixed {
     position: fixed;
     z-index: 999;
-    background-color: #000000d4;
+    background-color: #071035c5;
     
 }
 </style>

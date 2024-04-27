@@ -32,8 +32,8 @@ function goNewsDetail(id){
         </div>
         <div class="container">
             <div class="express">
-                <div class="title">最新新闻资讯</div>
-                <div class="words">资讯资讯资讯资讯资讯资讯资讯资讯资讯资讯</div>
+                <div class="title">新闻资讯</div>
+                <div class="words">围绕着智博会发生的科技新鲜事</div>
             </div>
             <div class="news-events">
                 <div class="news-item" v-for="item in newsData" :key="item.id">
@@ -92,12 +92,14 @@ function goNewsDetail(id){
             flex-direction: column;
             align-items: center;
             margin-bottom: 20px;
+            margin-top: 20px;
             color: #fff;
 
             .title {
+                padding-top: 40px;
                 font-size: 30px;
                 font-weight: 700;
-                margin-bottom: 10px;
+                margin-bottom: 20px;
             }
 
             .words {
@@ -117,7 +119,7 @@ function goNewsDetail(id){
                 color: #fff;
                 width: 18%;
                 // height: 40%;
-                height: 60%; //1
+                height: 70%; //1
                 // flex: 1;
                 position: relative;
                 overflow: hidden;
@@ -144,7 +146,7 @@ function goNewsDetail(id){
 
                 .content {
                     position: absolute;
-                    top: 322px;
+                    top: 355px;
                     font-size: 14px;
                     display: flex;
                     flex-direction: column;

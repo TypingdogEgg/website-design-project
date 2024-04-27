@@ -12,8 +12,7 @@ import History from '@/components/History.vue'
 import { BackTop } from 'ant-design-vue';
 import { UpOutlined } from '@ant-design/icons-vue';
 
-import { ref } from 'vue';
-let click = ref(true)
+
 </script>
 
 <template>
@@ -30,11 +29,6 @@ let click = ref(true)
         <History></History>
         <Footer></Footer>
         <BackTop class="float-button" ></BackTop>
-
-        <div class="animate__animated animate__rotateIn">
-            <p v-if="click">12131214</p>
-        </div>
-        <button @click="click = !click">click</button>
     </div>
 </template>
 
