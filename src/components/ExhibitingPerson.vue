@@ -156,6 +156,7 @@ function slideNext() {
     }
 
     .scroll-window {
+        margin-top: 60px;
         width: 100%;
         display: flex;
         flex-direction: column;
@@ -164,7 +165,7 @@ function slideNext() {
         .title {
             flex: 1;
 
-            font-size: 36px;
+            font-size: 30px;
             // font-weight: 700;
             color: #fff;
 

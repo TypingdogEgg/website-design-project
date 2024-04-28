@@ -4,6 +4,8 @@ import { getAssetsImg } from '@/utils/base';
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import 'swiper/css'
 import { getExhibitors } from '@/api';
+import { useRouter } from 'vue-router';
+const router = useRouter()
 // const brandsData = [
 //     {
 //         id: 1,
@@ -132,8 +134,9 @@ const scrollData2 = computed(() => {
 })
 
 function goProductPage(id){
+    console.log('click!');
     router.push({
-        path:'/newsdetail',
+        path:'/products',
         query:{
             id
         }
@@ -145,8 +148,13 @@ function goProductPage(id){
 <template>
     <div class="exhibiting-brand">
         <div class="scroll-window">
-            <div class="title">
-                参展品牌
+            <div class="express">
+                <div class="title">
+                    展品介绍
+                </div>
+                <div class="descrip">
+                    以下是参展品牌，点击对应logo即可查看参展产品详情
+                </div>
             </div>
             <div class="scroll-row">
                 <Swiper :observer="true" :observe-parents="true" :autoplay="{
@@ -157,7 +165,7 @@ function goProductPage(id){
                 }" :loop="true" :slides-per-view="4" :free-mode="true" :speed="3000">
                     <SwiperSlide class="slide" v-for="(item, index) in scrollData1" :key="index">
                         <img @click="goProductPage(item.id)" class="logo" :src="item.logoUrl" :alt="item.name">
-                        <p>{{ item.name }}</p>
+                        <p class="name">{{ item.name }}</p>
                     </SwiperSlide>
                 </Swiper>
             </div>
@@ -170,6 +178,7 @@ function goProductPage(id){
                 }" :loop="true" :slides-per-view="4" :free-mode="true" :speed="3000">
                     <SwiperSlide class="slide" v-for="(item, index) in scrollData2" :key="index">
                         <img @click="goProductPage(item.id)" class="logo" :src="item.logoUrl" alt="item.name">
+                        <p class="name">{{ item.name }}</p>
                     </SwiperSlide>
                 </Swiper>
             </div>
@@ -179,10 +188,10 @@ function goProductPage(id){
 
 <style scoped lang="less">
 .exhibiting-brand {
-    height: 500px;
-    background-color: #000000;
+    height: 100vh;
+    background-color: #ffffff;
     padding: 20px;
-    color: #fff;
+    color: #0b4d99;
 
     display: flex;
     justify-content: center;
@@ -194,12 +203,20 @@ function goProductPage(id){
         flex-direction: column;
         overflow: hidden;
 
-        .title {
+        .express{
             flex: 2;
-            padding-top: 30px;
-            font-weight: 700;
-            font-size: 36px;
+            margin-top: 60px;
             text-align: center;
+
+            .title {
+                    font-weight: 700;
+                    font-size: 30px;
+                }
+
+                .descrip{
+                    margin-top: 20px;
+                    font-size: 14px;
+                }
         }
 
         .scroll-row {
@@ -217,9 +234,15 @@ function goProductPage(id){
                 width: 200px;
 
                 .logo {
-                    margin: 21px;
+                    padding: 20px;
                     width: 150px;
                     height: 100px;
+                }
+
+                .name{
+                    font-size: 14px;
+                    margin-left: 0px;
+                    // text-align: center;
                 }
             }
         }

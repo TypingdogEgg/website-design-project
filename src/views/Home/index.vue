@@ -12,8 +12,7 @@ import History from '@/components/History.vue'
 import { BackTop } from 'ant-design-vue';
 import { UpOutlined } from '@ant-design/icons-vue';
 
-import { ref } from 'vue';
-let click = ref(true)
+
 </script>
 
 <template>
