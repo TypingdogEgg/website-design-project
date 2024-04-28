@@ -1,8 +1,14 @@
 <script setup>
 import Footer from '@/components/Footer.vue'
-import { ref, reactive, computed } from 'vue';
-import { Form, FormItem, Input, Button, Checkbox, Space } from 'ant-design-vue';
+import { ref, reactive, computed,onMounted } from 'vue';
+import { Form, FormItem, Input, Button, Checkbox, message } from 'ant-design-vue';
 import { MailOutlined, LeftOutlined, LockOutlined, UserOutlined } from '@ant-design/icons-vue';
+import { register,login } from '@/api';
+
+onMounted(()=>{
+    window.scrollTo({ top: 0 })
+
+})
 
 const loginFormState = reactive({
     email: '',
@@ -42,6 +48,44 @@ const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 16 },
 };
+
+const handleRegister = async ()=>{
+    if (registerFormState.password !== registerFormState.confirmPwd){
+        message.warning('两次输入的密码不一致！')
+        return;
+    }
+
+    const registerForm = {
+        email:registerFormState.email,
+        username:registerFormState.username,
+        password:registerFormState.password,
+    }
+    const res = await register(registerForm)
+    if(res.code == 200){
+        message.success('注册成功！')
+        isRegister.value = false
+    }else{
+        message.warning(res.msg)
+        return;
+    }
+}
+
+const handleLogin = async()=>{
+    const loginForm = {
+        email:loginFormState.email,
+        password:loginFormState.password
+    }
+
+    const res = await login(loginForm)
+    if (res.code == 200) {
+        message.success('登录成功！')
+        // 跳转主页
+        // 存store token
+    } else {
+        message.warning(res.msg)
+        return;
+    }
+}
 
 </script>
 
@@ -89,7 +133,7 @@ const layout = {
 
                             <FormItem class="form-item">
                                 <Button :disabled="registerDisabled" type="primary" html-type="submit"
-                                    class="login-form-button">
+                                    class="login-form-button" @click="handleRegister">
                                     注册
                                 </Button>
                             </FormItem>
@@ -123,7 +167,7 @@ const layout = {
 
                             <FormItem class="form-item">
                                 <FormItem name="remember" no-style>
-                                    <Checkbox class="check" v-model:checked="loginFormState.remember">Remember me
+                                    <Checkbox class="check" v-model:checked="loginFormState.remember">记住我
                                     </Checkbox>
                                 </FormItem>
                                 <!-- <a class="login-form-forgot" href="">Forgot password</a> -->
@@ -131,7 +175,7 @@ const layout = {
 
                             <FormItem class="form-item">
                                 <Button :disabled="loginDisabled" type="primary" html-type="submit"
-                                    class="login-form-button">
+                                    class="login-form-button" @click="handleLogin">
                                     登录
                                 </Button>
                             </FormItem>

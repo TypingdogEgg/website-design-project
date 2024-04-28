@@ -47,29 +47,29 @@ export const login = (data) => requests({
 
 // 获取新闻数据列表
 export const getNewsList = ()=>requests({
-    url:'/allnews',
+    url:'/data/allnews',
     method:'get'
 })
 // 根据id获取新闻数据列表
 export const getNews = (id)=>requests({
-    url:`/getnews/?id=${id}`,
+    url:`/data/getnews/?id=${id}`,
     method:'get',
 })
 
 // 请求参展嘉宾数据
 export const getGuests = ()=>requests({
-    url:'/allguests',
+    url:'/data/allguests',
     method:'get'
 })
 
 // 请求展商数据
 export const getExhibitors = () => requests({
-    url: '/allexhibitors',
+    url: '/data/allexhibitors',
     method: 'get'
 })
 
 //根据展商id获取展品数据
 export const getProducts = (id) => requests({
-    url: `/getproducts/?id=${id}`,
+    url: `/data/getproducts/?id=${id}`,
     method: 'get'
 })

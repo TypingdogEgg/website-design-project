@@ -8,6 +8,8 @@ const route = useRoute()
 const newsData = ref([])
 const contentList = ref([])
 onMounted(async() => {
+    window.scrollTo({ top: 0 })
+
     const id = route.query.id
     const res = await getNews(id)
     newsData.value = res.data

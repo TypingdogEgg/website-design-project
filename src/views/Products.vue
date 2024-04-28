@@ -39,6 +39,8 @@ const exhibitorData = ref({
 })
 
 onMounted(async () => {
+    window.scrollTo({top:0})
+
     const id = route.query.id
     const res = await getProducts(id)
     exhibitorData.value = res.data
@@ -122,7 +124,7 @@ function getFocusList(){
                 <!--  -->
                 <div class="exhibit">
                     <div class="img-box">
-                        <img :src="getAssetsImg(currentProduct.imgUrls)" alt="">
+                        <img :src="currentProduct.imageUrls" alt="">
                     </div>
                 </div>
                 <div class="description">
@@ -130,12 +132,12 @@ function getFocusList(){
                         {{ currentProduct.name }}
                     </div>
                     <div class="content">
-                        {{ currentProduct.introduction }}
+                        {{ currentProduct.description }}
                     </div>
                 </div>
             </div>
             <!-- 缩略图 -->
-            <Swiper class="swiper" :slides-per-view="6">
+            <Swiper class="swiper" :slides-per-view="4">
                 <SwiperSlide class="slide" v-for="(p, pIndex) in exhibitorData.products" :key="p.id">
                     <img :src="p.imageUrls" :class="{ 'border': pIndex == activeIndex }" :alt="p.name"
                         @click="activeIndex = pIndex">
