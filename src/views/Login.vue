@@ -1,13 +1,17 @@
 <script setup>
 import Footer from '@/components/Footer.vue'
 import { ref, reactive, computed } from 'vue';
-import { Form, FormItem, Input, Button, Checkbox } from 'ant-design-vue';
-import { LockOutlined, UserOutlined } from '@ant-design/icons-vue';
+import { Form, FormItem, Input, Button, Checkbox, Space } from 'ant-design-vue';
+import { MailOutlined, LeftOutlined, LockOutlined, UserOutlined } from '@ant-design/icons-vue';
 
 const loginFormState = reactive({
     email: '',
     password: '',
     remember: true
+})
+
+const loginDisabled = computed(() => {
+    return !(loginFormState.email != '' && loginFormState.password != '')
 })
 
 const onFinish = (values) => {
@@ -30,6 +34,10 @@ const registerFormState = reactive({
     confirmPwd: ''
 })
 
+const registerDisabled = computed(() => {
+    return !(registerFormState.email != '' && registerFormState.username != '' && registerFormState.confirmPwd != '' && registerFormState.password != '')
+})
+
 const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 16 },
@@ -41,49 +49,51 @@ const layout = {
     <div class="login-register">
         <div class="background">
             <div class="name">加入智博会</div>
-        </div>
-        <div class="content">
             <h1 class="title">
                 加入智博会了解更多新科技新变化
             </h1>
+        </div>
+        <div class="content">
             <div class="function">
                 <template v-if="isRegister">
-                    <div class="login">
-                        <a @click="isRegister = !isRegister" style="cursor: pointer;">
-                            < 返回登录</a>
-                                <!-- 注册表单 -->
-                                <Form v-bind="layout" :model="registerFormState" name="register" class="register-form"
-                                    @finish="registerFinish" @finishFailed="registerFinishFailed">
-                                    <FormItem label="邮箱" name="email"
-                                        :rules="[{ required: true, message: 'Please input your email!' }]">
-                                        <Input v-model:value="registerFormState.email"></Input>
-                                        <UserOutlined class="site-form-item-icon" />
-                                    </FormItem>
-                                    <FormItem label="用户名" name="username"
-                                        :rules="[{ required: true, message: 'Please input your username!' }]">
-                                        <Input v-model:value="registerFormState.username"></Input>
-                                        <UserOutlined class="site-form-item-icon" />
-                                    </FormItem>
-                                    <FormItem label="密码" name="password"
-                                        :rules="[{ required: true, message: 'Please input your password!' }]">
-                                        <Input v-model:value="registerFormState.password">
-                                        </Input>
-                                        <LockOutlined class="site-form-item-icon" />
-                                    </FormItem>
-                                    <FormItem label="确认密码" name="confirmPwd"
-                                        :rules="[{ required: true, message: 'Please input your password!' }]">
-                                        <Input v-model:value="registerFormState.confirmPwd">
-                                        </Input>
-                                        <LockOutlined class="site-form-item-icon" />
-                                    </FormItem>
+                    <a class="back" style="position: absolute;top: 280px;cursor: pointer;color: #000;"
+                        @click="isRegister = !isRegister">
+                        <LeftOutlined style="color: #000;" /> 返回登录
+                    </a>
+                    <div class="login" style="margin-left: 29%;">
+                        <!-- 注册表单 -->
+                        <Form v-bind="layout" :model="registerFormState" name="register" class="register-form"
+                            @finish="registerFinish" @finishFailed="registerFinishFailed">
+                            <FormItem class="form-item" label="邮箱" name="email"
+                                :rules="[{ required: true, message: 'Please input your email!' }]">
+                                <Input v-model:value="registerFormState.email"></Input>
+                                <MailOutlined class="site-form-item-icon" />
+                            </FormItem>
+                            <FormItem class="form-item" label="用户名" name="username"
+                                :rules="[{ required: true, message: 'Please input your username!' }]">
+                                <Input v-model:value="registerFormState.username"></Input>
+                                <UserOutlined class="site-form-item-icon" />
+                            </FormItem>
+                            <FormItem class="form-item" label="密码" name="password"
+                                :rules="[{ required: true, message: 'Please input your password!' }]">
+                                <Input v-model:value="registerFormState.password">
+                                </Input>
+                                <LockOutlined class="site-form-item-icon" />
+                            </FormItem>
+                            <FormItem class="form-item" label="确认密码" name="confirmPwd"
+                                :rules="[{ required: true, message: 'Please input your password!' }]">
+                                <Input v-model:value="registerFormState.confirmPwd">
+                                </Input>
+                                <LockOutlined class="site-form-item-icon" />
+                            </FormItem>
 
-                                    <FormItem>
-                                        <Button :disabled="disabled" type="primary" html-type="submit"
-                                            class="login-form-button">
-                                            登录
-                                        </Button>
-                                    </FormItem>
-                                </Form>
+                            <FormItem class="form-item">
+                                <Button :disabled="registerDisabled" type="primary" html-type="submit"
+                                    class="login-form-button">
+                                    注册
+                                </Button>
+                            </FormItem>
+                        </Form>
                     </div>
 
                 </template>
@@ -97,13 +107,13 @@ const layout = {
                         <!-- 登录表单 -->
                         <Form :model="loginFormState" name="login" class="login-form" @finish="onFinish"
                             @finishFailed="onFinishFailed">
-                            <FormItem label="邮箱" name="email"
+                            <FormItem class="form-item" label="邮箱" name="email"
                                 :rules="[{ required: true, message: 'Please input your email!' }]">
                                 <Input v-model:value="loginFormState.email"></Input>
-                                <UserOutlined class="site-form-item-icon" />
+                                <MailOutlined class="site-form-item-icon" />
                             </FormItem>
 
-                            <FormItem label="密码" name="password"
+                            <FormItem class="form-item" label="密码" name="password"
                                 :rules="[{ required: true, message: 'Please input your password!' }]">
                                 <Input v-model:value="loginFormState.password">
                                 </Input>
@@ -111,7 +121,7 @@ const layout = {
 
                             </FormItem>
 
-                            <FormItem>
+                            <FormItem class="form-item">
                                 <FormItem name="remember" no-style>
                                     <Checkbox class="check" v-model:checked="loginFormState.remember">Remember me
                                     </Checkbox>
@@ -119,8 +129,8 @@ const layout = {
                                 <!-- <a class="login-form-forgot" href="">Forgot password</a> -->
                             </FormItem>
 
-                            <FormItem>
-                                <Button :disabled="disabled" type="primary" html-type="submit"
+                            <FormItem class="form-item">
+                                <Button :disabled="loginDisabled" type="primary" html-type="submit"
                                     class="login-form-button">
                                     登录
                                 </Button>
@@ -136,65 +146,72 @@ const layout = {
 
 <style scoped lang="less">
 .login-register {
-    background-color: #f4f4f4;
+    background-color: #ffffff;
     position: absolute;
     width: 100%;
+    height: 100vh;
     left: 0;
     top: 0;
     z-index: 2;
 
     .background {
-        height: 300px;
+        margin-top: 120px;
+        height: 150px;
         background: url('../assets/images/bg.png');
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
 
         .name {
+            font-family: 'title-font';
             padding-top: 20px;
-            color: #fff;
+            color: #2033a0;
             letter-spacing: 5px;
-            font-size: 36px;
+            font-size: 50px;
             font-weight: 700;
+        }
+
+        .title {
+            padding-top: 30px;
+            text-align: center;
+            font-size: 15px;
         }
     }
 
     .content {
-        display: flex;
         flex-direction: column;
 
-        margin: 20px auto;
-        width: 60%;
+        margin: 50px auto;
+        width: 50%;
         height: 400px;
-        border-radius: 2%;
-        box-shadow: 3px 3px 5px 3px hsla(0, 0%, 79%, 0.58);
-        background-color: #fff;
-
-        .title {
-            flex: 1;
-            padding-top: 30px;
-            text-align: center;
-            font-size: 16px;
-        }
+        // border-radius: 2%;
+        // box-shadow: 3px 3px 5px 3px hsla(0, 0%, 79%, 0.58);
+        // background-color: #fff;
 
         .function {
-            flex: 5;
             display: flex;
             padding: 0 50px;
 
             .register {
-                flex: 1;
-                margin-right: 10px;
+                width: 300px;
+                // flex: 1;
+                margin-left: 120px;
+
+                margin-right: 50px;
 
                 button {
                     margin-top: 30px;
-                    width: 60px;
+                    width: 70px;
+                    color: #2033a0;
+                    border: #2033a0 1px solid;
                     height: 32px;
                 }
             }
 
             .login {
-                flex: 1;
+                // flex: 1;
+                width: 300px;
 
                 p {
                     font-size: 18px;
@@ -205,9 +222,18 @@ const layout = {
                     text-align: center;
                     max-width: 300px;
 
-                    .login-form-button {
-                        width: 20%;
+                    .form-item {
+                        margin-bottom: 25px;
                     }
+
+
+                    .login-form-button {
+                        width: 90px;
+                        color: #2033a0;
+                        border: #2033a0 1px solid;
+
+                    }
+
 
                     input {
                         padding-left: 25px;
@@ -229,11 +255,19 @@ const layout = {
                 }
 
                 .login-form {
+
+                    .form-item {
+                        margin-bottom: 25px;
+                    }
+
                     max-width: 300px;
 
                     .login-form-button {
-                        width: 20%;
+                        width: 90px;
+                        color: #2033a0;
+                        border: #2033a0 1px solid;
                     }
+
 
                     input {
                         padding-left: 25px;

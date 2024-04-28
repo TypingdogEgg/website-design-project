@@ -19,7 +19,7 @@ const router = useRouter();
                     <h3 class="title-en">Smart China Expo</h3>
                     <!-- <h3 class="title-en">Expo</h3> -->
                     <h1 class="topic">智能创新・共赢未来</h1>
-                    <p>chinese's bold future is here</p>
+                    <p>china's bold future is here</p>
                 </div>
                 <div class="bottom-text">
                     <Button class="register" @click="router.push('/login')">现在注册</Button>
@@ -31,6 +31,7 @@ const router = useRouter();
 
 <style scoped lang="less">
 .home-slide {
+    font-family: 'title-font';
     position: relative;
     height: 100vh;
     background-color: #658cf7;
@@ -71,23 +72,30 @@ const router = useRouter();
                 padding-bottom: 25px;
 
                 .title {
-                    font-size: 60px;
+                    font-family: 'title-font';
+                    font-size: 90px;
                     // font-weight: 700;
                     color: #fff;
                 }
 
                 .title-en {
+                    font-family: 'Helvetica';
+
                     font-style: italic;
                     font-size: 25px;
                     color: #fff;
                 }
 
                 .topic {
-                    font-size: 60px;
+                    font-family: 'title-font';
+
+                    font-size: 70px;
                     color: #fff;
                 }
 
                 p {
+                    font-family: 'Helvetica';
+
                     margin-left: 7px;
                     margin-top: 10px;
                     font-size: 16px;
@@ -96,8 +104,8 @@ const router = useRouter();
                 }
             }
 
-            .bottom-text{
-                .register{
+            .bottom-text {
+                .register {
                     margin-top: 20px;
                     width: 100px;
                     height: 30px;

@@ -172,6 +172,7 @@ function slideNext() {
             margin-left: 30px;
 
             p {
+                font-family: 'Helvetica';
                 font-size: 22px;
                 color: #fff;
             }
