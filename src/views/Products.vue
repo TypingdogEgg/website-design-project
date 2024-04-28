@@ -1,11 +1,13 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted, reactive } from 'vue'
 import { useRoute } from 'vue-router';
 import { getProducts } from '@/api'
 import { getAssetsImg } from '@/utils/base'
 import Footer from '@/components/Footer.vue';
 // import { Thumbs } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/vue';
+import 'swiper/css';
+import { HeartOutlined, HeartFilled } from '@ant-design/icons-vue';
 
 const route = useRoute()
 
@@ -18,7 +20,7 @@ const exhibitorData = ref({
         {
             id: 1,
             name: '科大讯飞AI虚拟人交互平台',
-            introduction: '科大讯飞AI虚拟人交互平台具备多模感知、多维表达、情感贯穿、自主定制四大核心特点，提供媒体、金融、政企、文旅、教育、文娱等多场景的解决方案，致力于为客户提供一站式的虚拟人服务。依托讯飞开放平台产业生态，AI虚拟人交互平台构建了从个体到行业、从应用技术到解决方案的全链路生态，为数字经济的发展提供助力，让虚拟人成为人类的伙伴。',
+            introduction: '科大讯飞AI虚拟人交互平台具备多模感知、多维表达、情感贯穿、自主定制四大核心特点，提供媒体、金融、政企、文旅、教育、文娱等多场景的解决方案，致力于为客户提供一站式的虚拟人服务。依托讯飞开放平台产业生态，AI虚拟人交互平台构建了从个体到行业、从应用技术到解决方案的全链路生态，为数字经济的发展提供助力，让虚拟人成为人类的伙伴。科大讯飞AI虚拟人交互平台具备多模感知、多维表达、情感贯穿、自主定制四大核心特点，提供媒体、金融、政企、文旅、教育、文娱等多场景的解决方案，致力于为客户提供一站式的虚拟人服务。依托讯飞开放平台产业生态，AI虚拟人交互平台构建了从个体到行业、从应用技术到解决方案的全链路生态，为数字经济的发展提供助力，让虚拟人成为人类的伙伴。科大讯飞AI虚拟人交互平台具备多模感知、多维表达、情感贯穿、自主定制四大核心特点，提供媒体、金融、政企、文旅、教育、文娱等多场景的解决方案，致力于为客户提供一站式的虚拟人服务。依托讯飞开放平台产业生态，AI虚拟人交互平台构建了从个体到行业、从应用技术到解决方案的全链路生态，为数字经济的发展提供助力，让虚拟人成为人类的伙伴。',
             imgUrls: 'p-1.png'
         },
         {
@@ -40,8 +42,45 @@ onMounted(async () => {
     const id = route.query.id
     // const res = await getProducts(id)
     // newsData.value = res.data
-
 })
+
+// 当前产品id
+let activeIndex = ref(0)
+// 当前产品数据
+let currentProduct = computed(() => {
+    console.log(activeIndex.value, currentProduct);
+    if (!exhibitorData.value.products) return {}
+    return exhibitorData.value.products.filter((item, index) => index == activeIndex.value)[0]
+})
+
+let isFocus = ref(false)
+let focusList = reactive([])
+
+
+// 点击关注按钮
+function handleFocus() {
+    // 未关注
+    if (!isFocus) {
+        // 先验证是否登陆 查看cookie
+
+        // 未登录就跳转到/login
+
+        // 携带用户id、cookie发请求 添加关注
+
+        // 成功 改值；失败log
+        isFocus.value = !isFocus.value
+    }else{
+        // 取消关注
+        // 发取消关注的请求
+    }
+}
+
+// 先判断是否登陆 若登陆，带展商id和用户id发请求获取focusList，
+// 未登录 根据展品数组长度 初始化focusList为false数组
+function getFocusList(){
+
+}
+
 </script>
 
 <template>
@@ -60,18 +99,45 @@ onMounted(async () => {
         <div class="products-swiper">
             <!-- 大图+介绍 -->
             <div class="show-area">
+                <!-- focusList 要用数组数组 -->
+                <!--  -->
+                <!--  -->
+                <div class="focus" @click="handleFocus">
+                    <template v-if="!isFocus">
+                        <div class="focus-span">
+                            <span>关注</span>
+                            <HeartOutlined class="icon" />
+                        </div>
+                    </template>
+                    <template v-else>
+                        <div class="focus-span">
+                            <span style="color: #1d3d97;">已关注</span>
+                            <HeartFilled class="icon" style="color: #1d3d97;" />
+                        </div>
+                    </template>
+                </div>
+                <!--  -->
+                <!--  -->
+                <!--  -->
                 <div class="exhibit">
-                    <img src="" alt="">
+                    <div class="img-box">
+                        <img :src="getAssetsImg(currentProduct.imgUrls)" alt="">
+                    </div>
                 </div>
                 <div class="description">
-                    <div class="title"></div>
-                    <div class="content"></div>
+                    <div class="title">
+                        {{ currentProduct.name }}
+                    </div>
+                    <div class="content">
+                        {{ currentProduct.introduction }}
+                    </div>
                 </div>
             </div>
             <!-- 缩略图 -->
-            <Swiper class="swiper" :slides-per-view="3">
-                <SwiperSlide class="slide" v-for="p in exhibitorData.products" :key="p.id">
-                    <img :src="getAssetsImg(p.imgUrls)" alt="">
+            <Swiper class="swiper" :slides-per-view="6">
+                <SwiperSlide class="slide" v-for="(p, pIndex) in exhibitorData.products" :key="p.id">
+                    <img :src="getAssetsImg(p.imgUrls)" :class="{ 'border': pIndex == activeIndex }" alt=""
+                        @click="activeIndex = pIndex">
                 </SwiperSlide>
             </Swiper>
         </div>
@@ -85,7 +151,6 @@ onMounted(async () => {
     width: 100%;
     padding: 30px;
     padding-top: 100px;
-    background-color: #f0f0f0;
 
     display: flex;
 
@@ -102,6 +167,7 @@ onMounted(async () => {
             .title {
                 display: flex;
                 align-items: center;
+
                 h1 {
                     width: 188px;
                     line-height: 30px;
@@ -120,7 +186,7 @@ onMounted(async () => {
                 }
             }
 
-            .descrip{
+            .descrip {
                 width: 100%;
                 height: 100%;
                 padding-top: 30px;
@@ -134,19 +200,102 @@ onMounted(async () => {
     .products-swiper {
         flex: 3;
         background-color: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 30px 50px;
 
-        .swiper{
+        .show-area {
+            width: 100%;
+            height: calc(100% - 120px);
 
-            width: 80%;
+            display: flex;
+            position: relative;
+
+            .focus {
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                font-size: 20px;
+                cursor: pointer;
+
+                div {
+                    span {
+                        font-size: 15px;
+                        margin-right: 3px;
+                    }
+
+                }
+
+            }
+
+            .focus:hover {
+                // color: #1d3d97;
+                transform: scale(1.1);
+                transition: all .3s;
+            }
+
+            .exhibit {
+                flex: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 20px 50px;
+                background-color: #fff;
+
+                text-align: center;
+
+                .img-box {
+                    padding: 100px 50px;
+                    border: 1px dotted #adadad;
+
+                    img {
+                        width: 100%;
+                        // height: 100%;
+                    }
+                }
+            }
+
+            .description {
+                flex: 1;
+                margin-top: 80px;
+                overflow-y: auto;
+                margin-bottom: 80px;
+
+
+
+
+                .title {
+                    font-size: 36px
+                }
+
+                .content {
+                    padding: 10px;
+                    font-size: 16px;
+                    color: #666666;
+                    line-height: 28px;
+                    margin-top: 20px;
+                }
+
+            }
+        }
+
+        .swiper {
+            padding: 0 50px;
+            width: 100%;
             height: 120px;
 
-            .slide{
+            .slide {
                 width: 175px;
                 height: 120px;
 
-                img{
+                img {
                     width: 175px;
                     height: 120px;
+                }
+
+                .border {
+                    border: 1px solid #1d3d97
                 }
             }
         }

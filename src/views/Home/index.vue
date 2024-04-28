@@ -29,12 +29,7 @@ let click = ref(true)
         <!-- <ExhibitingBrand></ExhibitingBrand> -->
         <History></History>
         <Footer></Footer>
-        <BackTop class="float-button" ></BackTop>
-
-        <div class="animate__animated animate__rotateIn">
-            <p v-if="click">12131214</p>
-        </div>
-        <button @click="click = !click">click</button>
+        <BackTop class="float-button"></BackTop>
     </div>
 </template>
 
@@ -46,10 +41,11 @@ let click = ref(true)
     // top: 0;
     // z-index: 2;
 
-    .float-button{
+    .float-button {
         z-index: 10000;
     }
-    .float-button:hover{
+
+    .float-button:hover {
         background-color: rgb(216, 216, 216);
     }
 }
