@@ -1,7 +1,22 @@
 <script setup>
 import { Button } from 'ant-design-vue';
 import { useRouter } from 'vue-router';
+import { useUserStore } from '@/stores/user';
+import { storeToRefs } from 'pinia';
+
+const userStore = useUserStore()
+const { userData } = storeToRefs(userStore)
+
 const router = useRouter();
+
+function goDown(){
+    let offsetHeight = document.querySelectorAll('.news')[0].offsetTop
+    window.scrollTo({
+        top: offsetHeight,
+        left: 0,
+        behavior: 'smooth'
+    })
+}
 
 </script>
 
@@ -22,7 +37,10 @@ const router = useRouter();
                     <p>china's bold future is here</p>
                 </div>
                 <div class="bottom-text">
-                    <Button class="register" @click="router.push('/login')">现在注册</Button>
+                    <Button v-if="userData==null" class="button" @click="router.push('/login')">现在注册</Button>
+                    <Button v-else class="button" @click="goDown">
+                        进入智博会
+                    </Button>
                 </div>
             </div>
         </div>
@@ -105,7 +123,7 @@ const router = useRouter();
             }
 
             .bottom-text {
-                .register {
+                .button {
                     margin-top: 20px;
                     width: 100px;
                     height: 30px;

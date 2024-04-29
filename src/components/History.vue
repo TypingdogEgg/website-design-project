@@ -177,7 +177,8 @@ function transitionEnd(){
             height: 100%;
             position: absolute;
             z-index: 10000;
-            background: linear-gradient(to left, #00010a, #0000000d, #0f0f0f00, #03030300);
+            background: linear-gradient(to left, #00010a, #0000005d, #0f0f0f4a, #0303032d,#0000001b,#03030317);
+            background-image: linear-gradient(359deg, #00010a, #00000027, #0f0f0f2c, #030303);
         }
 
         .container {
@@ -197,11 +198,12 @@ function transitionEnd(){
         }
 
         .content {
+            text-align: end;
             width: 600px;
             height: 200px;
             position: absolute;
             right: 350px;
-            top: 300px;
+            top: 425px;
             z-index: 10000;
             animation: move 0.8s;
 

@@ -1,11 +1,26 @@
 <script setup>
-
+import {YoutubeOutlined,TwitterOutlined,WeiboOutlined,InstagramOutlined } from '@ant-design/icons-vue';
 </script>
 
 <template>
     <div class="footer">
         <div class="inner">
-            <div class="col logo"></div>
+            <div class="col logo">
+                <div style="width: 80px;height: 80px;">
+                    <img style="width: 80px;" src="../assets/images/logo.png" alt="">
+                </div>
+                <div class="div" style="padding-top: 10px;">
+                    <span class="top" style="float: left;">智博会</span>
+                    <span class="under">Smart China</span>
+                    <span class="under">Expo</span>
+                </div>
+                <div class="logo-list">
+                    <WeiboOutlined class="icon"></WeiboOutlined>
+                    <TwitterOutlined class="icon"></TwitterOutlined>
+                    <YoutubeOutlined class="icon"></YoutubeOutlined>
+                    <InstagramOutlined class="icon"></InstagramOutlined>
+                </div>
+            </div>
             <ul class="col">
                 <li class="row title">参与其中</li>
                 <li class="row">getsmartchina@smartchina.com</li>
@@ -40,7 +55,7 @@
     background-size: cover;
     color: #fff;
 
-    padding: 0 200px;
+    padding: 0 150px;
     padding-top: 80px;
     display: flex;
     justify-content: center;
@@ -50,6 +65,44 @@
         width: 80%;
         display: flex;
         justify-content: space-between;
+
+        .logo {
+                height: 100%;
+                width: 200px;
+                display: flex;
+                flex-wrap: wrap;
+                align-content: flex-start;
+                // flex-direction: column;
+        
+                .div {
+                    height: 100px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    // justify-content: center;
+                }
+        
+                span {
+                    width: 120px;
+                    font-style: italic;
+                }
+        
+                .top {
+                    font-size: 16px;
+        
+                }
+
+                .logo-list{
+                    // float: left;
+                    margin-left: 20px;
+
+                    .icon{
+                        cursor: pointer;
+                        width: 16px;
+                        margin-right: 15px;
+                    }
+                }
+            }
 
         .col {
             // width: 22%;

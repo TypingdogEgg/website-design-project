@@ -4,6 +4,11 @@ import { ref, reactive, computed,onMounted } from 'vue';
 import { Form, FormItem, Input, Button, Checkbox, message } from 'ant-design-vue';
 import { MailOutlined, LeftOutlined, LockOutlined, UserOutlined } from '@ant-design/icons-vue';
 import { register,login } from '@/api';
+import { useRouter } from 'vue-router';
+import { useUserStore } from '@/stores/user';
+
+const router = useRouter()
+const userStore = useUserStore()
 
 onMounted(()=>{
     window.scrollTo({ top: 0 })
@@ -79,8 +84,13 @@ const handleLogin = async()=>{
     const res = await login(loginForm)
     if (res.code == 200) {
         message.success('登录成功！')
+        // 存store token userinfo
+        userStore.saveUserData(res)
         // 跳转主页
-        // 存store token
+        setTimeout(()=>{
+            // 返回上一个页面并刷新
+            location.replace(document.referrer);
+        },1000)
     } else {
         message.warning(res.msg)
         return;
@@ -199,13 +209,14 @@ const handleLogin = async()=>{
     z-index: 2;
 
     .background {
-        margin-top: 120px;
-        height: 150px;
+        // margin-top: 120px;
+        height: 260px;
         background: url('../assets/images/bg.png');
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        padding-top: 30px;
 
         .name {
             font-family: 'title-font';

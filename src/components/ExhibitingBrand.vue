@@ -215,7 +215,7 @@ function goProductPage(id){
 
                 .descrip{
                     margin-top: 20px;
-                    font-size: 14px;
+                    font-size: 16px;
                 }
         }
 
@@ -234,7 +234,7 @@ function goProductPage(id){
                 width: 200px;
 
                 .logo {
-                    padding: 20px;
+                    padding: 5px;
                     width: 150px;
                     height: 100px;
                 }

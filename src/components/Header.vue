@@ -1,7 +1,19 @@
 <script setup>
-import { Space, Dropdown, Menu, MenuItem } from 'ant-design-vue';
-import { computed,ref,watch } from 'vue';
-import { useRouter,useRoute } from 'vue-router';
+import { Space, Dropdown, Menu, MenuItem, Avatar } from 'ant-design-vue';
+import { computed, ref, watch, onMounted, reactive } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import { useUserStore } from '@/stores/user';
+import { storeToRefs } from 'pinia';
+
+const userStore = useUserStore()
+let userData = {}
+// const {userData} = storeToRefs(userStore)
+onMounted(() => {
+    userData = userStore.getUserData()
+    // console.log('userdata',userData.value);
+    // console.log('userdata',userStore.userData);
+})
+
 // 导航列表 to暂定 name暂定
 const navList = [
     {
@@ -42,7 +54,7 @@ const route = useRoute()
 
 const isFixed = ref(false);
 
-window.addEventListener('scroll',()=>{
+window.addEventListener('scroll', () => {
     if (window.scrollY >= 200) {
         isFixed.value = true;
     } else {
@@ -50,27 +62,37 @@ window.addEventListener('scroll',()=>{
     }
 })
 
-function handleScroll(to){
+function handleScroll(to) {
     // console.log(to);
     let offsetHeight = document.querySelectorAll(`.${to}`)[0].offsetTop
-    // console.log(offsetHeight);
-    console.log(to,document.querySelectorAll(`.${to}`)[0].offsetTop);
+
     window.scrollTo({
-        top:offsetHeight,
-        left:0,
-        behavior:'smooth'
+        top: offsetHeight,
+        left: 0,
+        behavior: 'smooth'
     })
+}
+
+function exit() {
+    userStore.removeUserData()
+    location.reload()
 }
 
 </script>
 
 <template>
-    <div class="header" :class="!isFixed&&route.path=='/'?'header-abs':'header-fixed'">
+    <div class="header" :class="!isFixed && route.path == '/' ? 'header-abs' : 'header-fixed'">
         <div class="header-content">
             <div class="title" @click="router.push('/')" style="cursor: pointer;">
                 <div class="logo">
-                    <span class="top">智博会</span>
-                    <span class="under">Smart China Expo</span>
+                    <div style="width: 65px;height: 78px;">
+                        <img style="width: 65px;" src="../assets/images/logo.png" alt="">
+                    </div>
+                    <div class="div">
+                        <span class="top" style="float: left;">智博会</span>
+                        <span class="under">Smart China</span>
+                        <span class="under">Expo</span>
+                    </div>
                 </div>
             </div>
             <div class="navbar">
@@ -92,7 +114,25 @@ function handleScroll(to){
                             <a @click="handleScroll(nav.to)">{{ nav.name }}</a>
                         </li>
                         <li class="nav-item">
-                            <router-link to="login">登录/注册</router-link>
+                            <router-link to="login" v-if="userData == null">登录/注册</router-link>
+                            <Dropdown placement="bottom" arrow v-else>
+                                <div>
+                                    <Avatar :size="30" style="background-color: #658cf7;cursor: pointer;">
+                                        {{ userData.username }}
+                                    </Avatar>
+                                    <span style="color: #fff;margin-left: 10px;">{{ userData.username }}</span>
+                                </div>
+                                <template #overlay>
+                                    <Menu>
+                                        <MenuItem>
+                                        <a @click="person">个人中心</a>
+                                        </MenuItem>
+                                        <MenuItem>
+                                        <a @click="exit">退出</a>
+                                        </MenuItem>
+                                    </Menu>
+                                </template>
+                            </Dropdown>
                         </li>
                     </Space>
                 </ul>
@@ -114,17 +154,25 @@ function handleScroll(to){
         display: flex;
 
         .title {
-            color: #fff;
+            color: #ffffff;
             width: 40%;
             height: 100%;
 
             .logo {
                 height: 100%;
-                width: 120px;
+                width: 200px;
                 display: flex;
-                flex-direction: column;
+                // flex-direction: column;
+
+                .div{
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                }
 
                 span {
+                    width: 120px;
                     font-style: italic;
                 }
 
@@ -160,6 +208,7 @@ function handleScroll(to){
         }
     }
 }
+
 .header-abs {
     position: absolute;
     top: 0;
@@ -170,6 +219,6 @@ function handleScroll(to){
     position: fixed;
     z-index: 999;
     background-color: #071035c5;
-    
+
 }
 </style>

@@ -22,10 +22,21 @@ import { UpOutlined } from '@ant-design/icons-vue';
         <!-- <Introduction></Introduction> -->
         <!-- <Timeline></Timeline> -->
         <News></News>
+        <div class="transition1">
+            <div class="bg"><img src="../../assets/images/bg.png" alt=""></div>
+        </div>
         <ExhibitingBrand></ExhibitingBrand>
+        <div class="transition2">
+            <!-- <div class="bg"><img src="../../assets/images/bg.png" alt=""></div> -->
+        </div>
         <ExhibitingPerson></ExhibitingPerson>
 
-        <!-- <ExhibitingBrand></ExhibitingBrand> -->
+        <div class="transition3">
+            <div class="title">
+                回望历史
+                <p>跟随重庆智博会一起回顾六年来的点点滴滴</p>
+            </div>
+        </div>
         <History></History>
         <Footer></Footer>
         <BackTop class="float-button"></BackTop>
@@ -34,6 +45,7 @@ import { UpOutlined } from '@ant-design/icons-vue';
 
 <style scoped lang="less">
 .home {
+    overflow: hidden;
     // position: absolute;
     width: 100%;
     // left: 0;
@@ -46,6 +58,59 @@ import { UpOutlined } from '@ant-design/icons-vue';
 
     .float-button:hover {
         background-color: rgb(216, 216, 216);
+    }
+
+    .transition1{
+        position: relative;
+        // z-index: 1;
+        height: 100px;
+        // background-image: linear-gradient(to top,#fff,#000000);
+        .bg{
+
+            width: 200px;
+            position: absolute;
+            z-index: 10;
+            left: -45px;
+            top: -200px;
+        }
+    }
+    .transition2{
+        position: relative;
+        // z-index: 1;
+        height: 100px;
+        background-color: #000;
+        // background-image: linear-gradient(to top,#fff,#000000);
+        .bg{
+            width: 200px;
+            position: absolute;
+            z-index: 10;
+            right: -157px;
+            top: -140px;
+
+            img{
+                // scale: 1.8;
+                rotate: -10deg;
+            }
+        }
+    }
+
+    .transition3{
+        height: 200px;
+        background-color: #000;
+
+        .title{
+            margin-left: 50px;
+            padding-top: 50px;
+            font-size: 30px;
+            color: #fff;
+            
+
+            p{
+                margin-top: 10px;
+                font-size: 16px;
+                color: #fff;
+            }
+        }
     }
 }
 </style>
