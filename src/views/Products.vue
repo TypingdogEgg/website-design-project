@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, onMounted, reactive } from 'vue'
-import { useRoute } from 'vue-router';
+import { useRoute,useRouter } from 'vue-router';
 import { getProducts } from '@/api'
 import { getAssetsImg } from '@/utils/base'
 import Footer from '@/components/Footer.vue';
@@ -8,8 +8,12 @@ import Footer from '@/components/Footer.vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
 import { HeartOutlined, HeartFilled } from '@ant-design/icons-vue';
+import { useUserStore } from '@/stores/user';
+
+const userStore = useUserStore()
 
 const route = useRoute()
+const router = useRouter()
 
 const exhibitorData = ref({
 //     id: 1,
@@ -64,14 +68,18 @@ let focusList = reactive([])
 function handleFocus() {
     // 未关注
     if (!isFocus) {
-        // 先验证是否登陆 查看cookie
+        // 先验证是否登陆
+        if(userStore.userData==null){
+            // 未登录就跳转到/login
+            router.push('/login')
+        }else{
+            // 携带用户id、token发请求 添加关注
 
-        // 未登录就跳转到/login
+            // 成功 改值；失败log
+            isFocus.value = !isFocus.value
+        }
 
-        // 携带用户id、cookie发请求 添加关注
 
-        // 成功 改值；失败log
-        isFocus.value = !isFocus.value
     }else{
         // 取消关注
         // 发取消关注的请求

@@ -14,6 +14,7 @@ import {YoutubeOutlined,TwitterOutlined,WeiboOutlined,InstagramOutlined } from '
                     <span class="under">Smart China</span>
                     <span class="under">Expo</span>
                 </div>
+                <div class="descrip">中国国际智能产业博览会(重庆)</div>
                 <div class="logo-list">
                     <WeiboOutlined class="icon"></WeiboOutlined>
                     <TwitterOutlined class="icon"></TwitterOutlined>
@@ -68,7 +69,7 @@ import {YoutubeOutlined,TwitterOutlined,WeiboOutlined,InstagramOutlined } from '
 
         .logo {
                 height: 100%;
-                width: 200px;
+                width: 220px;
                 display: flex;
                 flex-wrap: wrap;
                 align-content: flex-start;
@@ -92,9 +93,15 @@ import {YoutubeOutlined,TwitterOutlined,WeiboOutlined,InstagramOutlined } from '
         
                 }
 
+                .descrip{
+                    padding-top: 10px;
+                    font-size: 16px;
+                }
+
                 .logo-list{
                     // float: left;
-                    margin-left: 20px;
+                    // margin-left: 20px;
+                    padding-top: 20px;
 
                     .icon{
                         cursor: pointer;
