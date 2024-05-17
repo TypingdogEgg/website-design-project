@@ -127,18 +127,22 @@ onMounted(async () => {
 })
 
 const scrollData1 = computed(() => {
-    return brandsData.value.filter((data, index, self) => index < self.length / 2)
+    return brandsData.value.filter((data, index, self) => index < self.length / 3)
 })
 const scrollData2 = computed(() => {
-    return brandsData.value.filter((data, index, self) => index >= self.length / 2)
+    return brandsData.value.filter((data, index, self) => index >= self.length / 3 && index < self.length/3*2)
 })
 
-function goProductPage(id){
+const scrollData3 = computed(()=>{
+    return brandsData.value.filter((data,index,self)=>index >= self.length/3*2)
+})
+
+function goProductPage(exhibitor_id) {
     console.log('click!');
     router.push({
-        path:'/products',
-        query:{
-            id
+        path: '/products',
+        query: {
+            exhibitor_id,
         }
     })
 }
@@ -153,7 +157,7 @@ function goProductPage(id){
                     展品介绍
                 </div>
                 <div class="descrip">
-                    以下是参展品牌，点击对应logo即可查看参展产品详情
+                    Click on the logo to view the exhibits
                 </div>
             </div>
             <div class="scroll-row">
@@ -162,9 +166,22 @@ function goProductPage(id){
                     stopOnLastSlide: false,
                     disableOnInteraction: false,
                     reverseDirection: true
-                }" :loop="true" :slides-per-view="4" :free-mode="true" :speed="3000">
+                }" :loop="true" :slides-per-view="4" :free-mode="true" :speed="4000">
                     <SwiperSlide class="slide" v-for="(item, index) in scrollData1" :key="index">
-                        <img @click="goProductPage(item.id)" class="logo" :src="item.logoUrl" :alt="item.name">
+                        <img loading="lazy" @click="goProductPage(item.id)" class="logo" :src="item.logoUrl" :alt="item.name">
+                        <p class="name">{{ item.name }}</p>
+                    </SwiperSlide>
+                </Swiper>
+            </div>
+            <div class="scroll-row">
+                <Swiper :observer="true" :observe-parents="true" :autoplay="{
+                    delay: 0,
+                    stopOnLastSlide: false,
+                    disableOnInteraction: false,
+               
+                }" :loop="true" :slides-per-view="4" :free-mode="true" :speed="4000">
+                    <SwiperSlide class="slide" v-for="(item, index) in scrollData2" :key="index">
+                        <img loading="lazy" @click="goProductPage(item.id)" class="logo" :src="item.logoUrl" alt="item.name">
                         <p class="name">{{ item.name }}</p>
                     </SwiperSlide>
                 </Swiper>
@@ -175,9 +192,9 @@ function goProductPage(id){
                     stopOnLastSlide: false,
                     disableOnInteraction: false,
                     reverseDirection: true
-                }" :loop="true" :slides-per-view="4" :free-mode="true" :speed="3000">
-                    <SwiperSlide class="slide" v-for="(item, index) in scrollData2" :key="index">
-                        <img @click="goProductPage(item.id)" class="logo" :src="item.logoUrl" alt="item.name">
+                }" :loop="true" :slides-per-view="4" :free-mode="true" :speed="4000">
+                    <SwiperSlide class="slide" v-for="(item, index) in scrollData3" :key="index">
+                        <img loading="lazy" @click="goProductPage(item.id)" class="logo" :src="item.logoUrl" alt="item.name">
                         <p class="name">{{ item.name }}</p>
                     </SwiperSlide>
                 </Swiper>
@@ -205,8 +222,9 @@ function goProductPage(id){
 
         .express{
             flex: 2;
-            margin-top: 60px;
-            text-align: center;
+            margin-top: 20px;
+            text-align: end;
+            // margin-right: 20px;
 
             .title {
                     font-weight: 700;
@@ -214,8 +232,8 @@ function goProductPage(id){
                 }
 
                 .descrip{
-                    margin-top: 20px;
-                    font-size: 16px;
+                    margin-top: 5px;
+                    font-size: 20px;
                 }
         }
 

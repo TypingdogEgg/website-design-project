@@ -10,6 +10,7 @@ let userData = {}
 // const {userData} = storeToRefs(userStore)
 onMounted(() => {
     userData = userStore.getUserData()
+    console.log(route);
     // console.log('userdata',userData.value);
     // console.log('userdata',userStore.userData);
 })
@@ -41,6 +42,11 @@ const navList = [
         name: '往届回顾',
         to: 'history'
     },
+    {
+        id: 6,
+        name: '讨论区',
+        to: 'comments'
+    },
 ]
 const navHasChildren = computed(() => {
     return navList.filter((nav) => !nav.to)
@@ -63,32 +69,37 @@ window.addEventListener('scroll', () => {
 })
 
 function handleScroll(to) {
-    // console.log(to);
-    let offsetHeight = document.querySelectorAll(`.${to}`)[0].offsetTop
-
-    window.scrollTo({
-        top: offsetHeight,
-        left: 0,
-        behavior: 'smooth'
-    })
+    if(route.path != '/'){
+        router.push('/')
+    }
+    setTimeout(()=>{
+        let offsetHeight = document.querySelectorAll(`.${to}`)[0].offsetTop
+    
+        window.scrollTo({
+            top: offsetHeight,
+            left: 0,
+            behavior: 'smooth'
+        })
+    },100)
 }
 
 function exit() {
     userStore.removeUserData()
-    location.reload()
+        location.replace('/')
 }
 
 </script>
 
 <template>
-    <div class="header" :class="!isFixed && route.path == '/' ? 'header-abs' : 'header-fixed'">
+    <div class="header" :class="!isFixed && route.path == '/' ? 'header-abs' : 'header-fixed'"
+        :style="route.path=='/login'?'background-color:#ffffff00;':''">
         <div class="header-content">
             <div class="title" @click="router.push('/')" style="cursor: pointer;">
                 <div class="logo">
                     <div style="width: 65px;height: 78px;">
                         <img style="width: 65px;" src="../assets/images/logo.png" alt="">
                     </div>
-                    <div class="div">
+                    <div class="div" :style="route.path == '/login' ? 'color:#000;font-weight:700;' : ''">
                         <span class="top" style="float: left;">智博会</span>
                         <span class="under">Smart China</span>
                         <span class="under">Expo</span>
@@ -98,7 +109,8 @@ function exit() {
             <div class="navbar">
                 <ul class="bar">
                     <Space :size="40">
-                        <li class="nav-item" v-for="nav in navHasChildren" :key="nav.id">
+                        <li v-if="route.name != 'detail'&&route.name!='changepwd'&&route.name!='myfocus'"
+                            class="nav-item" v-for="nav in navHasChildren" :key="nav.id">
                             <Dropdown placement="bottom" arrow>
                                 <a @click.prevent>{{ nav.name }}</a>
                                 <template #overlay>
@@ -110,8 +122,10 @@ function exit() {
                                 </template>
                             </Dropdown>
                         </li>
-                        <li class="nav-item" v-for="nav in navNoChildren" :key="nav.id">
-                            <a @click="handleScroll(nav.to)">{{ nav.name }}</a>
+                        <li v-if="route.name != 'detail' && route.name != 'changepwd' && route.name != 'myfocus'"
+                            class="nav-item" v-for="nav in navNoChildren" :key="nav.id">
+                            <a :style="route.path == '/login' ? 'color:#000;' : ''"
+                                @click="handleScroll(nav.to)">{{ nav.name }}</a>
                         </li>
                         <li class="nav-item">
                             <router-link to="login" v-if="userData == null">登录/注册</router-link>
@@ -125,7 +139,7 @@ function exit() {
                                 <template #overlay>
                                     <Menu>
                                         <MenuItem>
-                                        <a @click="person">个人中心</a>
+                                        <a @click="router.push('/user')">个人中心</a>
                                         </MenuItem>
                                         <MenuItem>
                                         <a @click="exit">退出</a>
@@ -133,6 +147,10 @@ function exit() {
                                     </Menu>
                                 </template>
                             </Dropdown>
+                        </li>
+                        <li class="nav-item"
+                            v-if="route.name == 'detail' || route.name == 'changepwd' || route.name == 'myfocus'">
+                            <a @click="exit">退出登录</a>
                         </li>
                     </Space>
                 </ul>

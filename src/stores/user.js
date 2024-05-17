@@ -2,7 +2,7 @@ import { ref,reactive, computed } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useUserStore = defineStore('user', () => {
-  let userData = ref({cs:123})
+  let userData = ref({})
 
   function getUserData(){
     userData.value = JSON.parse(localStorage.getItem('userInfo'))

@@ -120,7 +120,7 @@ function transitionEnd(){
 <template>
     <div class="history">
 
-        <Swiper :modules="modules" class="swiper" direction="vertical" :speed="800" :rewind="true" @swiper="onSwiper" 
+        <Swiper :modules="modules" class="swiper" direction="vertical" :speed="800" :rewind="true" @swiper="onSwiper"
             @slide-change-transition-start="transitionStart" @slide-change-transition-end="transitionEnd">
             <SwiperSlide v-for="item in historyData" :key="item.id">
                 <div class="over-content"></div>
@@ -141,7 +141,7 @@ function transitionEnd(){
             <!-- pagination and navigation -->
             <div class="toolbar">
                 <div class="pagination" @click="slidePrev">
-                <!-- <div class="pagination" v-if="slider.activeIndex > 0" @click="slidePrev"> -->
+                    <!-- <div class="pagination" v-if="slider.activeIndex > 0" @click="slidePrev"> -->
                     <UpOutlined class="icon"></UpOutlined>
                 </div>
                 <div class="navigation">
@@ -178,7 +178,7 @@ function transitionEnd(){
             position: absolute;
             z-index: 10000;
             background: linear-gradient(to left, #00010a, #0000005d, #0f0f0f4a, #0303032d,#0000001b,#03030317);
-            background-image: linear-gradient(359deg, #00010a, #00000027, #0f0f0f2c, #030303);
+            background-image: linear-gradient(359deg, #00010a, #0000005e, #0000005e, #030303);
         }
 
         .container {
@@ -198,16 +198,17 @@ function transitionEnd(){
         }
 
         .content {
-            text-align: end;
+            // text-align: end;
             width: 600px;
             height: 200px;
             position: absolute;
             right: 350px;
-            top: 425px;
+            top: 490px;
             z-index: 10000;
             animation: move 0.8s;
 
             .title {
+                    text-align: end;
                 color: #fff;
                 font-size: 40px;
                 margin-bottom: 30px;
@@ -218,7 +219,8 @@ function transitionEnd(){
             }
 
             .descrip {
-                font-size: 24px;
+                    text-align: end;
+                font-size: 22px;
                 color: #fff;
             }
         }

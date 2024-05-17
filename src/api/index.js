@@ -73,3 +73,47 @@ export const getProducts = (id) => requests({
     url: `/data/getproducts/?id=${id}`,
     method: 'get'
 })
+
+// 根据用户id获取关注列表
+export const getAllFocus = (user_id)=>requests({
+    url:`/focus/focuslist?user_id=${user_id}`,
+    method:'get',
+})
+
+// 根据用户id和展商id获取关注列表
+export const getFocusByExhibitor = (user_id,exhibitor_id)=>requests({
+    url:`/focus/focusbye?user_id=${user_id}&exhibitor_id=${exhibitor_id}`,
+    method:'get',
+})
+
+// 添加关注
+export const addFocus = (user_id,product_id) =>requests({
+    url:'/focus/addfocus',
+    method:'post',
+    data:{
+        user_id,
+        product_id
+    }
+})
+// 移出关注
+export const removeFocus = (user_id,product_id) =>requests({
+    url:'/focus/removefocus',
+    method:'put',
+    data:{
+        user_id,
+        product_id
+    }
+})
+
+// 获取评论数据
+export const getCommentList = () => requests({
+    url: '/data/getcomments',
+    method: 'get'
+}) 
+
+// 获取评论数据
+export const addComment = (data) => requests({
+    url: '/focus/addcomment',
+    method: 'post',
+    data
+}) 

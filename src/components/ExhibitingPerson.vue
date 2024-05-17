@@ -100,7 +100,7 @@ function slideNext() {
                     <SwiperSlide class="slide" v-for="(item, index) in guestsData" :key="index">
                         <div class="main">
                             <div class="content">
-                                <img class="image" :src="item.imgUrl" :alt="item.name">
+                                <img loading="lazy" class="image" :src="item.imgUrl" :alt="item.name">
                             </div>
                             <div class="words">
                                 <p class="name">{{ item.name }}</p>

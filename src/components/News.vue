@@ -33,10 +33,11 @@ function goNewsDetail(id){
         <div class="container">
             <div class="express">
                 <div class="title">新闻资讯</div>
-                <div class="words">围绕着智博会发生的科技新鲜事</div>
+                <div class="words">New technology happening around China Smart Expo</div>
             </div>
             <div class="news-events">
-                <div class="news-item" v-for="item in newsData" :key="item.id">
+                <div class="news-item" v-for="(item,index) in newsData" :key="item.id" data-aos="slide-up"
+                    :data-aos-delay="index*50" >
                     <div class="news-bg" :style="`background-image: url(${item.imgUrl});`">
                     </div>
                     <div class="content">
@@ -90,7 +91,7 @@ function goNewsDetail(id){
             display: flex;
             justify-content: center;
             flex-direction: column;
-            align-items: center;
+            // align-items: center;
             margin-bottom: 20px;
             margin-top: 20px;
             color: #fff;
@@ -99,11 +100,11 @@ function goNewsDetail(id){
                 padding-top: 40px;
                 font-size: 30px;
                 font-weight: 700;
-                margin-bottom: 20px;
+                margin-bottom: 5px;
             }
 
             .words {
-                font-size: 14px;
+                font-size: 20px;
             }
         }
 

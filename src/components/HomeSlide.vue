@@ -31,10 +31,9 @@ function goDown(){
             <div class="container">
                 <div class="tagline">
                     <h2 class="title">智博会</h2>
-                    <h3 class="title-en">Smart China Expo</h3>
-                    <!-- <h3 class="title-en">Expo</h3> -->
+                    <h3 class="title-en" style="margin-left: 10px;">Smart China Expo</h3>
                     <h1 class="topic">智能创新・共赢未来</h1>
-                    <p>china's bold future is here</p>
+                    <p style="margin-left: 20px;">china's bold future is here</p>
                 </div>
                 <div class="bottom-text">
                     <Button v-if="userData==null" class="button" @click="router.push('/login')">现在注册</Button>
@@ -73,13 +72,13 @@ function goDown(){
         width: 100%;
         height: 100%;
         position: absolute;
-        z-index: 998;
+        z-index: 100;
         top: 0;
         left: 0;
         background: linear-gradient(359deg, #00010a, #0000005e, #0f0f0f96, #030303);
 
         .container {
-            padding-top: 280px;
+            padding-top: 350px;
             margin: 0 auto;
             width: 80%;
             height: 700px;

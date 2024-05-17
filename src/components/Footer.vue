@@ -21,6 +21,7 @@ import {YoutubeOutlined,TwitterOutlined,WeiboOutlined,InstagramOutlined } from '
                     <YoutubeOutlined class="icon"></YoutubeOutlined>
                     <InstagramOutlined class="icon"></InstagramOutlined>
                 </div>
+                <div class="copyright">Copyright （重庆）中国国际智能产业博览会 版权所有</div>
             </div>
             <ul class="col">
                 <li class="row title">参与其中</li>
@@ -52,7 +53,7 @@ import {YoutubeOutlined,TwitterOutlined,WeiboOutlined,InstagramOutlined } from '
     height: 600px;
     // background-color: #003e7d;
     // background-image: linear-gradient(to top, #000000, #0a31de, #fff);
-    background-image:linear-gradient(180deg, #062667 0%, rgba(255,255,255,0) 65%),url('../assets/images/footer.png');
+    background-image:linear-gradient(180deg, #000000 0%, rgba(255,255,255,0) 65%),url('../assets/images/footer.png');
     background-size: cover;
     color: #fff;
 
@@ -68,11 +69,13 @@ import {YoutubeOutlined,TwitterOutlined,WeiboOutlined,InstagramOutlined } from '
         justify-content: space-between;
 
         .logo {
+                margin-top: 30px;
                 height: 100%;
                 width: 220px;
                 display: flex;
                 flex-wrap: wrap;
                 align-content: flex-start;
+                position: relative;
                 // flex-direction: column;
         
                 .div {
@@ -96,6 +99,14 @@ import {YoutubeOutlined,TwitterOutlined,WeiboOutlined,InstagramOutlined } from '
                 .descrip{
                     padding-top: 10px;
                     font-size: 16px;
+                }
+
+                .copyright{
+                    position: absolute;
+                    width: 400px;
+                    font-size: 14px;
+                    left: 0;
+                    bottom: 140px;
                 }
 
                 .logo-list{

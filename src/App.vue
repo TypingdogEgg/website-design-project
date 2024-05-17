@@ -1,6 +1,19 @@
 <script setup>
 import { RouterView } from 'vue-router'
+import { onMounted } from 'vue'
+import AOS from 'aos'
 
+onMounted(() => {
+  AOS.init({
+    // offset: 200,
+    duration: 600,
+    easing: 'ease-out',
+    once:false
+    // delay: 100,
+  });
+
+  
+})
 </script>
 
 <template>

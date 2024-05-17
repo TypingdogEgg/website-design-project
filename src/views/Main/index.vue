@@ -11,6 +11,8 @@ import Header from '@/components/Header.vue'
 <style scoped lang="less">
 @import '@/styles/color.less';
 
+
+
 h1 {
     color: @background;
 }

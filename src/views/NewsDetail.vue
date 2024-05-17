@@ -35,7 +35,7 @@ const contents = computed(()=>{
                 <p>{{ contentList[2] }}</p>
                 <p>{{ contentList[3] }}</p>
                 <div class="img">
-                    <img :src="newsData.imgUrl" alt="">
+                    <img loading="lazy" :src="newsData.imgUrl" alt="">
                 </div>
                 <p v-for="(item, index) in contentList" :key="index">{{ item }} <br></p>
             </div>

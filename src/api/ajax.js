@@ -16,6 +16,10 @@ const requests = axios.create({
 requests.interceptors.request.use(
     (config) => {
         NProgress.start() // 显示请求中的水平进度条
+        const token = localStorage.getItem('token');
+        if (token) {
+            config.headers.Authorization = token;
+        }
         return config  //返回配置对象
     },
     (err) => {
